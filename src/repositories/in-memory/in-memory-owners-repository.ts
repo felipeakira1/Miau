@@ -18,4 +18,9 @@ export class InMemoryOwnersRepository {
     async retrieveAll() : Promise<Owner[]> {
         return this.owners
     }
+
+    async retrieveByUserId(id: number) : Promise<Owner | null> {
+        const owner = this.owners.find((owner) => owner.userId === id)
+        return owner || null
+    }
 }
