@@ -4,6 +4,8 @@
 [X] Deve ser possível cadastrar um tutor</br>
 [X] Deve ser possível cadastrar um veterinário</br>
 [] Deve ser possível cadastrar um animal</br>
+[X] Deve ser possível se autenticar como tutor</br>
+[X] Deve ser possível se autenticar como veterinario</br>
 [] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>
 [] Deve ser possível que o veterinário aceite ou recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
 [] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
