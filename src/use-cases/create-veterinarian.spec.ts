@@ -3,7 +3,7 @@ import { UsersRepository } from "../repositories/users-repository";
 import { VeterinariansRepository } from "../repositories/veterinarians-repository";
 import { CreateVeterinarianUseCase } from "./create-veterinarian";
 import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-users-repository";
-import { InMemoryVeterinariansInterface } from "../repositories/in-memory/in-memory-veterinarians-repository";
+import { InMemoryVeterinariansRepository } from "../repositories/in-memory/in-memory-veterinarians-repository";
 import { compare } from "bcryptjs";
 import { rejects } from "assert";
 import { UserAlreadyExists } from "./errors/user-already-exists";
@@ -16,7 +16,7 @@ describe('Create Veterinarian Use Case', () => {
 
     beforeEach(() => {
         usersRepository = new InMemoryUsersRepository()
-        veterinariansRepository = new InMemoryVeterinariansInterface()
+        veterinariansRepository = new InMemoryVeterinariansRepository()
         sut = new CreateVeterinarianUseCase(usersRepository, veterinariansRepository)
     })
 
