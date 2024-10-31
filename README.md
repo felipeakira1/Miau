@@ -1,8 +1,8 @@
 # Miau
 
 ## Requisitos funcionais
-[] Deve ser possível cadastrar um tutor</br>
-[] Deve ser possível cadastrar um veterinário</br>
+[X] Deve ser possível cadastrar um tutor</br>
+[X] Deve ser possível cadastrar um veterinário</br>
 [] Deve ser possível cadastrar um animal</br>
 [] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>
 [] Deve ser possível que o veterinário aceite ou recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
