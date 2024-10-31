@@ -1,0 +1,22 @@
+{
+  "name": "miau",
+  "version": "1.0.0",
+  "description": "[] Deve ser possível cadastrar um tutor</br>\r [] Deve ser possível cadastrar um veterinário</br>\r [] Deve ser possível cadastrar um animal</br>\r [] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>\r [] Deve ser possível que o veterinário aceite ou recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>\r [] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>\r [] Deve ser possível que o veterinário visualzie todas as suas consultas em andamento.</br>\r [] Deve ser possível que o veterinário visualize todas as consultas finalizadas.</br>\r [] O tutor pode cadastrar seus próprios animais</br>",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "16.4.5",
+    "fastify": "5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.8.5",
+    "tsup": "8.3.5",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3"
+  }
+}
