@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  VETERINARIAN
+  ADMIN
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  phone String?
+  password String
+  address String?
+  role UserRole
+  owner Owner?
+  veterinarian Veterinarian?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("users ")
+}
+
+model Owner {
+  id Int @id @default(autoincrement())
+  imageUrl String?
+  animals Animal[]
+  appointments Appointment[]
+
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id])
+  @@map("owners")
+}
+
+model Veterinarian {
+  id Int @id @default(autoincrement())
+  
+  crmv String @unique
+  speciality String
+  imageUrl String?
+  appointments Appointment[]
+
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id])
+  @@map("veterinarians")
+}
+
+model Animal {
+  id Int @id @default(autoincrement())
+  name String
+  species String
+  breed String
+  birthDate DateTime
+  weight Float
+  imageUrl String?
+  ownerId Int
+  owner Owner @relation(fields: [ownerId], references: [id])
+  appointments Appointment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("animals")
+}
+
+
+model Appointment {
+  id Int @id @default(autoincrement())
+  date DateTime
+  description String
+  owner Owner @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  animal Animal @relation(fields: [animalId], references: [id])
+  animalId Int
+  veterinarian Veterinarian @relation(fields: [veterinarianId], references: [id])
+  veterinarianId Int
+  status String
+  preferredDates DateTime[]
+  acceptedDate DateTime?
+  observations String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("appointments")
+}
+
+model Log {
+  id Int @id @default(autoincrement())
+  userId Int
+  message String
+  details String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("logs")
+}
