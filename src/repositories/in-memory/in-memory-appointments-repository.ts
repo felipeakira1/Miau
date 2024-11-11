@@ -19,4 +19,9 @@ export class InMemoryAppointmentsRepository {
         this.appointments.push(appointment)
         return appointment
     }
+
+    async retrieveRequestedAppointmentsByVeterinarianId(veterinarianId : number) : Promise<Appointment[]> {
+        const appointments = this.appointments.filter((appointment) => appointment.veterinarianId === veterinarianId && appointment.status === 'Solicitado')
+        return appointments
+    }
 }

@@ -8,8 +8,8 @@
 [X] Deve ser possível se autenticar como veterinario</br>
 [X] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>
 [] Deve ser possível que o veterinário aceite ou recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
-[] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
-[] Deve ser possível que o veterinário visualzie todas as suas consultas em andamento.</br>
+[X] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
+[] Deve ser possível que o veterinário visualize todas as suas consultas em andamento.</br>
 [] Deve ser possível que o veterinário visualize todas as consultas finalizadas.</br>
 [] O tutor pode cadastrar seus próprios animais</br>
 
