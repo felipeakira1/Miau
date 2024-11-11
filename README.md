@@ -3,10 +3,10 @@
 ## Requisitos funcionais
 [X] Deve ser possível cadastrar um tutor</br>
 [X] Deve ser possível cadastrar um veterinário</br>
-[] Deve ser possível cadastrar um animal</br>
+[X] Deve ser possível cadastrar um animal</br>
 [X] Deve ser possível se autenticar como tutor</br>
 [X] Deve ser possível se autenticar como veterinario</br>
-[] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>
+[X] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>
 [] Deve ser possível que o veterinário aceite ou recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
 [] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
 [] Deve ser possível que o veterinário visualzie todas as suas consultas em andamento.</br>
@@ -22,7 +22,7 @@
 [] O veterinário pode aceitar um recusar uma solicitação de consulta, com justificativa predefinida ou personalizada.</br>
 [] O veterinário deve marcar uma consulta como finalizada e adicionar observações.</br>
 [] O tutor pode visualizar apenas suas consultas e as de seus animais.</br>
-[] O acesso ao sistema é baseado em roles (ADMIN, TUTOR, VETERINARIO)</br>
+[X] O acesso ao sistema é baseado em roles (ADMIN, TUTOR, VETERINARIO)</br>
 [] O veterinário e o tutor podem editar seus próprios dados e animais, mas não podem excluir.</br>
 [] O admin tem acesso total e pode realizar qualquer operação no sistema.</br>
 [] Cada usuário pode visualizar apenas suas próprias informações e as entidades associadas.</br>
