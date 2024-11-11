@@ -7,18 +7,19 @@
 [X] Deve ser possível se autenticar como tutor</br>
 [X] Deve ser possível se autenticar como veterinario</br>
 [X] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>
-[] Deve ser possível que o veterinário aceite ou recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
+[X] Deve ser possível que o veterinário aceite uma solicitação de consulta
+[] Deve ser possível que o veterinário recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
 [X] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
 [] Deve ser possível que o veterinário visualize todas as suas consultas em andamento.</br>
 [] Deve ser possível que o veterinário visualize todas as consultas finalizadas.</br>
-[] O tutor pode cadastrar seus próprios animais</br>
+[X] O tutor pode cadastrar seus próprios animais</br>
 
 ## Regras de negócio
 [] Um veterinário só pode ser cadastrado pelo admin</br>
 [] O tutor pode se cadastrar</br>
 [] O veterinário pode cadastrar novos tutores e animais, mas não pode excluí-los.</br>
 [] Somente o admin pode excluir tutores, veterinários e animais.</br>
-[] O tutor deve sugerir até 3 horários ao solicitar uma consulta.</br>
+[X] O tutor deve sugerir até 3 horários ao solicitar uma consulta.</br>
 [] O veterinário pode aceitar um recusar uma solicitação de consulta, com justificativa predefinida ou personalizada.</br>
 [] O veterinário deve marcar uma consulta como finalizada e adicionar observações.</br>
 [] O tutor pode visualizar apenas suas consultas e as de seus animais.</br>

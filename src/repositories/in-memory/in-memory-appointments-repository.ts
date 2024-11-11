@@ -17,11 +17,25 @@ export class InMemoryAppointmentsRepository {
         } as Appointment
         
         this.appointments.push(appointment)
-        return appointment
+        return appointment || null
     }
 
     async retrieveRequestedAppointmentsByVeterinarianId(veterinarianId : number) : Promise<Appointment[]> {
         const appointments = this.appointments.filter((appointment) => appointment.veterinarianId === veterinarianId && appointment.status === 'Solicitado')
         return appointments
+    }
+
+    async retrieveById(id: number) : Promise<Appointment | null> {
+        const appointment = this.appointments.find(appointment => appointment.id === id)
+        return appointment ? appointment : null
+    }
+
+    async updateAppointmentStatus({id, status} : {id: number, status: string}) : Promise<void> {
+        for(let appointment of this.appointments) {
+            if(appointment.id === id) {
+                appointment.status = status
+                break
+            }
+        }
     }
 }
