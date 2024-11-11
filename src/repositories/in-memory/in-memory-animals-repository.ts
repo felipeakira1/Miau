@@ -13,7 +13,9 @@ export class InMemoryAnimalsRepository {
             birthDate: data.birthDate,
             weight: data.weight,
             imageUrl: data.imageUrl,
-            ownerId: data.ownerId
+            ownerId: data.ownerId,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         } as Animal
 
         this.animals.push(animal)
