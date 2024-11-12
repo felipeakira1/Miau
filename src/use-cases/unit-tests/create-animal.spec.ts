@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, expect } from "vitest"
-import { AnimalsRepository } from "../repositories/animals-repository"
-import { InMemoryAnimalsRepository } from "../repositories/in-memory/in-memory-animals-repository"
-import { CreateAnimalUseCase } from "./create-animal"
+import { AnimalsRepository } from "../../repositories/animals-repository"
+import { CreateAnimalUseCase } from "../create-animal"
+import { InMemoryAnimalsRepository } from "../../repositories/in-memory/in-memory-animals-repository"
 
 
 describe('Create Animal Use Case', async () => {

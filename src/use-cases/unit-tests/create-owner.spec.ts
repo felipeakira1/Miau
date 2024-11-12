@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { UsersRepository } from "../repositories/users-repository"
-import { OwnersRepository } from "../repositories/owners-repository"
-import { CreateOwnerUseCase } from "./create-owner"
-import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-users-repository"
-import { InMemoryOwnersRepository } from "../repositories/in-memory/in-memory-owners-repository"
 import { compare } from "bcryptjs"
-import { UserAlreadyExists } from "./errors/user-already-exists"
+import { CreateOwnerUseCase } from "../create-owner"
+import { UsersRepository } from "../../repositories/users-repository"
+import { OwnersRepository } from "../../repositories/owners-repository"
+import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository"
+import { InMemoryOwnersRepository } from "../../repositories/in-memory/in-memory-owners-repository"
+import { UserAlreadyExists } from "../errors/user-already-exists"
 
 
 describe('Create Owner Use Case', () => {

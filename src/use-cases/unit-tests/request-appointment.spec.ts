@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { AppointmentsRepository } from "../repositories/appointments-repository";
-import { InMemoryAppointmentsRepository } from "../repositories/in-memory/in-memory-appointments-repository";
-import { RequestAppointmentUseCase } from "./request-appointment";
-import { MissingFields } from "./errors/missing-fields";
+import { AppointmentsRepository } from "../../repositories/appointments-repository";
+import { RequestAppointmentUseCase } from "../request-appointment";
+import { InMemoryAppointmentsRepository } from "../../repositories/in-memory/in-memory-appointments-repository";
+import { MissingFields } from "../errors/missing-fields";
 
 
 describe('Request Appointment Use Case', () => {

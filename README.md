@@ -29,6 +29,8 @@
 [X] Deve ser possível que o veterinário aceite uma solicitação de consulta</br>
 [X] Deve ser possível que o veterinário recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
 [] Deve ser possível que o veterinário finalize uma consulta</br>
+[] Deve ser possível que o tutor cancele uma solicitação de consulta</br>
+[] Deve ser possível que o tutor cancele uma consulta</br>
 [X] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
 [] Deve ser possível que o veterinário visualize todas as suas consultas em andamento.</br>
 [] Deve ser possível que o veterinário visualize todas as consultas finalizadas.</br>

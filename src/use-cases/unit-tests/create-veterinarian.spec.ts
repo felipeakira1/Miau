@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { UsersRepository } from "../repositories/users-repository";
-import { VeterinariansRepository } from "../repositories/veterinarians-repository";
-import { CreateVeterinarianUseCase } from "./create-veterinarian";
-import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-users-repository";
-import { InMemoryVeterinariansRepository } from "../repositories/in-memory/in-memory-veterinarians-repository";
 import { compare } from "bcryptjs";
 import { rejects } from "assert";
-import { UserAlreadyExists } from "./errors/user-already-exists";
+import { UsersRepository } from "../../repositories/users-repository";
+import { VeterinariansRepository } from "../../repositories/veterinarians-repository";
+import { CreateVeterinarianUseCase } from "../create-veterinarian";
+import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
+import { InMemoryVeterinariansRepository } from "../../repositories/in-memory/in-memory-veterinarians-repository";
+import { UserAlreadyExists } from "../errors/user-already-exists";
 
 
 describe('Create Veterinarian Use Case', () => {

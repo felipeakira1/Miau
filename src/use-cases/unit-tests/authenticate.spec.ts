@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { UsersRepository } from "../repositories/users-repository";
-import { OwnersRepository } from "../repositories/owners-repository";
-import { VeterinariansRepository } from "../repositories/veterinarians-repository";
-import { AuthenticateUseCase } from "./authenticate";
-import { InMemoryVeterinariansRepository } from "../repositories/in-memory/in-memory-veterinarians-repository";
-import { InMemoryOwnersRepository } from "../repositories/in-memory/in-memory-owners-repository";
-import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-users-repository";
 import { hash } from "bcryptjs";
-import { InvalidCredentials } from "./errors/invalid-credentials";
+import { UsersRepository } from "../../repositories/users-repository";
+import { OwnersRepository } from "../../repositories/owners-repository";
+import { VeterinariansRepository } from "../../repositories/veterinarians-repository";
+import { AuthenticateUseCase } from "../authenticate";
+import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
+import { InMemoryOwnersRepository } from "../../repositories/in-memory/in-memory-owners-repository";
+import { InMemoryVeterinariansRepository } from "../../repositories/in-memory/in-memory-veterinarians-repository";
+import { InvalidCredentials } from "../errors/invalid-credentials";
 
 
 describe('Authenticate Use Case', () => {

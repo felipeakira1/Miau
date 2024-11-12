@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { AppointmentsRepository } from "../repositories/appointments-repository";
-import { FetchRequestedAppointment } from "./fetch-requested-appointments";
-import { InMemoryAppointmentsRepository } from "../repositories/in-memory/in-memory-appointments-repository";
+import { AppointmentsRepository } from "../../repositories/appointments-repository";
 import { Appointment } from "@prisma/client";
+import { FetchRequestedAppointment } from "../fetch-requested-appointments";
+import { InMemoryAppointmentsRepository } from "../../repositories/in-memory/in-memory-appointments-repository";
 
 
 describe('Fetch Requested Appointments Use Case', () => {
