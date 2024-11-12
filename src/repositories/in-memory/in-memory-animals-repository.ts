@@ -21,4 +21,8 @@ export class InMemoryAnimalsRepository {
         this.animals.push(animal)
         return animal
     }
+
+    async retrieveAll() {
+        return this.animals
+    }
 }
