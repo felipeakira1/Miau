@@ -53,7 +53,8 @@
 [] O admin tem acesso total e pode realizar qualquer operação no sistema.</br>
 
 ## Rotas
-[] POST /owners</br>
+[X] POST /authenticate - Autenticação</br>
+[X] POST /owners - Registrar um tutor</br>
 [] GET /owners</br>
 [] GET /owners/:id</br>
 [] PUT /owners/:id</br>
