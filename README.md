@@ -10,8 +10,8 @@
 [X] Deve ser possível cadastrar um animal</br>
 [] Deve ser possível atualizar os dados de um animal</br>
 [] Deve ser possível excluir um animal</br>
-[] Deve ser possível visualizar todos os animais do sistema</br>
-[] Deve ser possível visualizar todos os animais de um tutor</br>
+[X] Deve ser possível visualizar todos os animais do sistema</br>
+[X] Deve ser possível visualizar todos os animais de um tutor</br>
 
 ### Tutores
 [X] Deve ser possível cadastrar um tutor</br>
