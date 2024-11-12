@@ -3,14 +3,14 @@ import { AppointmentsRepository } from "../repositories/appointments-repository"
 import { ResourceNotFound } from "./errors/resource-not-found";
 import { InvalidStatus } from "./errors/invalid-status";
 
-interface AcceptRequestedAppointmentUseCaseRequest {
+interface DenyRequestedAppointmentUseCaseRequest {
     appointmentId: number
 }
 
-export class AcceptRequestedAppointment {
+export class DenyRequestedAppointment {
     constructor(private appointmentsRepository : AppointmentsRepository) {}
 
-    async execute({appointmentId} : AcceptRequestedAppointmentUseCaseRequest) {
+    async execute({appointmentId} : DenyRequestedAppointmentUseCaseRequest) {
         const appointment = await this.appointmentsRepository.retrieveById(appointmentId)
         if(appointment === null) {
             throw new ResourceNotFound()
@@ -18,6 +18,6 @@ export class AcceptRequestedAppointment {
         if(appointment.status !== 'Solicitado') {
             throw new InvalidStatus()
         }
-        await this.appointmentsRepository.update({id: appointmentId, status: 'Aceito'})
+        await this.appointmentsRepository.update({id: appointmentId, status: 'Recusado'})
     }
 }
