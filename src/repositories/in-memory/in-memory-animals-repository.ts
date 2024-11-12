@@ -25,4 +25,9 @@ export class InMemoryAnimalsRepository {
     async retrieveAll() {
         return this.animals
     }
+
+    async retrieveByOwnerId(ownerId : number) {
+        const animals = this.animals.filter(animal => animal.ownerId === ownerId)
+        return animals
+    }
 }
