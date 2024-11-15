@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { makeAuthenticateUseCase } from "../../use-cases/factories/make-authenticate-use-case";
+import { FastifyJWT } from "@fastify/jwt";
 
 
 export async function authenticate(request : FastifyRequest, reply : FastifyReply) {
@@ -18,12 +19,11 @@ export async function authenticate(request : FastifyRequest, reply : FastifyRepl
         })
 
         const token = await reply.jwtSign(
-            {},
             {
-                sign: {
-                    sub: user.id.toString()
-                }
-            }
+                sub: user.id,
+                role: user.role
+            },
+            {}
         )
         return reply.status(200).send({token})
     } catch(err) {
