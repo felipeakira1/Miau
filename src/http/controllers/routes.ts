@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
-import { authenticate } from "./authenticate";
-import { profile } from "./profile";
+import { authenticate } from "./user/authenticate";
+import { profile } from "./user/profile";
 import { verifyJWT } from "../hooks/verify-jwt";
 
 

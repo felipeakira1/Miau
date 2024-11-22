@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { makeFetchOwnerUseCase } from "../../use-cases/factories/make-fetch-owner-use-case";
-import { makeFetchVeterinarianUseCase } from "../../use-cases/factories/make-fetch-veterinarian-use-case";
-import { makeFetchUserUseCase } from "../../use-cases/factories/make-fetch-user-use-case";
+import { makeFetchOwnerUseCase } from "../../../use-cases/factories/make-fetch-owner-use-case";
+import { makeFetchVeterinarianUseCase } from "../../../use-cases/factories/make-fetch-veterinarian-use-case";
+import { makeFetchUserUseCase } from "../../../use-cases/factories/make-fetch-user-use-case";
 
 
 export async function profile(request: FastifyRequest, reply: FastifyReply) {
