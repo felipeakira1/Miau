@@ -8,7 +8,7 @@ import { InMemoryVeterinariansRepository } from "../../repositories/in-memory/in
 import { FetchVeterinarian } from "../fetch-veterinarian"
 
 
-describe('Fetch Owner Use Case', () => {
+describe('Fetch Veterinarian Use Case', () => {
     let sut : FetchVeterinarian
     let usersRepository : UsersRepository
     let veterinariansRepository : VeterinariansRepository

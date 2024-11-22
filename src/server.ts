@@ -6,24 +6,7 @@ import { env } from "./env"
 import { logRoute } from "./http/hooks/log"
 import { info } from "console"
 
-const app = fastify({
-    logger: {
-        level: 'info',
-        serializers: {
-            req: (request) => {
-                return {
-                    method: request.method,
-                    url: request.url
-                }
-            },
-            res: (reply) => {
-                return {
-                    statusCode: reply.statusCode
-                }
-            }
-        }
-    }
-})
+const app = fastify()
 
 app.addHook('onRequest', logRoute)
 
