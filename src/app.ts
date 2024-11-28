@@ -1,11 +1,12 @@
 import fastify, { FastifyReply, FastifyRequest } from "fastify"
 import { ownerRoutes } from "./http/controllers/owner/routes"
-import { routes } from "./http/controllers/routes"
+import { userRoutes } from "./http/controllers/user/routes"
 import fastifyJwt from "@fastify/jwt"
 import { env } from "./env"
 import { logRoute } from "./http/hooks/log"
 import { info } from "console"
 import fastifyCookie from "@fastify/cookie"
+import { veterinarianRoutes } from "./http/controllers/veterinarian/routes"
 
 export const app = fastify()
 
@@ -23,8 +24,9 @@ app.register(fastifyJwt, {
 })
 
 app.register(fastifyCookie)
+app.register(userRoutes)
 app.register(ownerRoutes)
-app.register(routes)
+app.register(veterinarianRoutes)
 
 app.get('/users', (request: FastifyRequest, reply: FastifyReply) => {
     return reply.send({hello: 'world!'})
