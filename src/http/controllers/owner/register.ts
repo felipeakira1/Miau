@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { makeCreateOwnerUseCase } from "../../../use-cases/factories/make-create-owner-use-case";
-import { UserAlreadyExists } from "../../../use-cases/errors/user-already-exists";
+import { EmailAlreadyExists } from "../../../use-cases/errors/email-already-exists";
 
 
 export async function register(request : FastifyRequest, reply : FastifyReply) {
@@ -26,7 +26,7 @@ export async function register(request : FastifyRequest, reply : FastifyReply) {
         })
         return reply.status(201).send({user, owner})
     } catch(err) {
-        if(err instanceof UserAlreadyExists) {
+        if(err instanceof EmailAlreadyExists) {
             return reply.status(409).send({message: err.message})
             throw err
         }

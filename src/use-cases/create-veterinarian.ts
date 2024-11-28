@@ -2,7 +2,8 @@ import { User, Veterinarian } from "@prisma/client"
 import { UsersRepository } from "../repositories/users-repository"
 import { VeterinariansRepository } from "../repositories/veterinarians-repository"
 import { hash } from "bcryptjs"
-import { UserAlreadyExists } from "./errors/user-already-exists"
+import { EmailAlreadyExists } from "./errors/email-already-exists"
+import { CRMVAlreadyExists } from "./errors/crmv-already-exists"
 
 
 interface CreateVeterinarianUseCaseRequest {
@@ -32,9 +33,14 @@ export class CreateVeterinarianUseCase {
 
         const userAlreadyExists = await this.usersRepository.retrieveByEmail(email)
         if(userAlreadyExists) {
-            throw new UserAlreadyExists()
+            throw new EmailAlreadyExists()
         }
 
+        const veterinarianAlreadyExists = await this.veterinariansRepository.retrieveByCrmv(crmv)
+        if(veterinarianAlreadyExists)  {
+            throw new CRMVAlreadyExists()
+        }
+        
         const user = await this.usersRepository.create({
             name,
             email,

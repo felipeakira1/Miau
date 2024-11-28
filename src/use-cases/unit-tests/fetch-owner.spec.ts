@@ -5,7 +5,7 @@ import { UsersRepository } from "../../repositories/users-repository"
 import { OwnersRepository } from "../../repositories/owners-repository"
 import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository"
 import { InMemoryOwnersRepository } from "../../repositories/in-memory/in-memory-owners-repository"
-import { UserAlreadyExists } from "../errors/user-already-exists"
+import { EmailAlreadyExists } from "../errors/email-already-exists"
 import { FetchOwner } from "../fetch-owner"
 import { ResourceNotFound } from "../errors/resource-not-found"
 

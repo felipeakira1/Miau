@@ -2,7 +2,7 @@ import { Owner, User } from "@prisma/client";
 import { OwnersRepository } from "../repositories/owners-repository";
 import { hash } from "bcryptjs"
 import { UsersRepository } from "../repositories/users-repository";
-import { UserAlreadyExists } from "./errors/user-already-exists";
+import { EmailAlreadyExists } from "./errors/email-already-exists";
 
 interface CreateOwnerUseCaseRequest {
     name: string,
@@ -29,7 +29,7 @@ export class CreateOwnerUseCase {
 
         const userAlreadyExists = await this.usersRepository.retrieveByEmail(email)
         if(userAlreadyExists) {
-            throw new UserAlreadyExists()
+            throw new EmailAlreadyExists()
         }
 
         const user = await this.usersRepository.create({

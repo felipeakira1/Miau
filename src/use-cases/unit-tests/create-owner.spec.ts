@@ -5,7 +5,7 @@ import { UsersRepository } from "../../repositories/users-repository"
 import { OwnersRepository } from "../../repositories/owners-repository"
 import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository"
 import { InMemoryOwnersRepository } from "../../repositories/in-memory/in-memory-owners-repository"
-import { UserAlreadyExists } from "../errors/user-already-exists"
+import { EmailAlreadyExists } from "../errors/email-already-exists"
 
 
 describe('Create Owner Use Case', () => {
@@ -58,6 +58,6 @@ describe('Create Owner Use Case', () => {
                 email,
                 password: '123456'
             })
-        ).rejects.toBeInstanceOf(UserAlreadyExists)
+        ).rejects.toBeInstanceOf(EmailAlreadyExists)
     })
 })

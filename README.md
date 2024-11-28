@@ -53,20 +53,27 @@
 [] O admin tem acesso total e pode realizar qualquer operação no sistema.</br>
 
 ## Rotas
+### Users
 [X] POST /authenticate - Autenticação</br>
-[X] POST /owners - Registrar um tutor</br>
+[X] GET /profile - Obter dados do usuário autenticado</br>
+[X] PATCH /token/refresh - Atualizar token de autenticação</br>
+
+### Owners
+[X] POST /owners/register - Registrar um tutor</br>
 [] GET /owners</br>
 [] GET /owners/:id</br>
 [] PUT /owners/:id</br>
 [] DELETE /owner/:id</br>
 
-[] POST /veterinarians</br>
+### Veterinarians
+[X] POST /veterinarians - Criar um veterinario</br>
 [] GET /veterinarians</br>
 [] GET /veterinarians/:id</br>
 [] PUT /veterinarians/:id</br>
 [] DELETE /veterinarians/:id</br>
 
-[] POST /animals</br>
+### Animals
+[] POST /animals</br> - Criar um animal</br>
 [] GET /animals</br>
 [] GET /animals/:ownerId/animals</br>
 [] GET /animals/:id</br>

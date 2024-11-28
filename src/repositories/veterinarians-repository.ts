@@ -10,4 +10,5 @@ export interface CreateVeterinarianInterface {
 export interface VeterinariansRepository {
     create(data: CreateVeterinarianInterface) : Promise<Veterinarian>
     retrieveByUserId(id : number) : Promise<Veterinarian | null>
+    retrieveByCrmv(crmv: string): Promise<Veterinarian | null>
 }

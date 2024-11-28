@@ -6,7 +6,8 @@ import { VeterinariansRepository } from "../../repositories/veterinarians-reposi
 import { CreateVeterinarianUseCase } from "../create-veterinarian";
 import { InMemoryUsersRepository } from "../../repositories/in-memory/in-memory-users-repository";
 import { InMemoryVeterinariansRepository } from "../../repositories/in-memory/in-memory-veterinarians-repository";
-import { UserAlreadyExists } from "../errors/user-already-exists";
+import { EmailAlreadyExists } from "../errors/email-already-exists";
+import { CRMVAlreadyExists } from "../errors/crmv-already-exists";
 
 
 describe('Create Veterinarian Use Case', () => {
@@ -78,6 +79,23 @@ describe('Create Veterinarian Use Case', () => {
             password: '123456',
             crmv: '12345/SP',
             speciality: 'Geral'
-        })).rejects.toBeInstanceOf(UserAlreadyExists)
+        })).rejects.toBeInstanceOf(EmailAlreadyExists)
+    })
+    it('should not be able to create a veterinarian with same crmv of any veterinarian', async() => {
+        const crmv = '12345-SP'
+        await sut.execute({
+            name: 'Felipe',
+            email: 'felipe1@example.com',
+            password: '123456',
+            crmv,
+            speciality: 'Geral'
+        })
+        await expect(sut.execute({
+            name: 'Felipe',
+            email: 'felipe2@example.com',
+            password: '123456',
+            crmv,
+            speciality: 'Geral'
+        })).rejects.toBeInstanceOf(CRMVAlreadyExists)
     })
 })

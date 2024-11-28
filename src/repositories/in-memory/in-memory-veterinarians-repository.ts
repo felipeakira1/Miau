@@ -1,8 +1,8 @@
 import { Veterinarian } from "@prisma/client";
-import { CreateVeterinarianInterface } from "../veterinarians-repository";
+import { CreateVeterinarianInterface, VeterinariansRepository } from "../veterinarians-repository";
 
 
-export class InMemoryVeterinariansRepository {
+export class InMemoryVeterinariansRepository implements VeterinariansRepository {
     private veterinarians : Veterinarian[] = []
 
     async create(data : CreateVeterinarianInterface) {
@@ -20,6 +20,11 @@ export class InMemoryVeterinariansRepository {
 
     async retrieveByUserId(id : number) : Promise<Veterinarian | null> {
         const veterinarian = this.veterinarians.find((veterinarian) => veterinarian.userId === id)
+        return veterinarian || null
+    }
+
+    async retrieveByCrmv(crmv: string): Promise<Veterinarian | null> {
+        const veterinarian = this.veterinarians.find((veterinarian) => veterinarian.crmv === crmv)
         return veterinarian || null
     }
 }

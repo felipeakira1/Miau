@@ -1,7 +1,8 @@
+import { Veterinarian } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
-import { CreateVeterinarianInterface } from "../veterinarians-repository";
+import { CreateVeterinarianInterface, VeterinariansRepository } from "../veterinarians-repository";
 
-export class PrismaVeterinariansRepository {
+export class PrismaVeterinariansRepository implements VeterinariansRepository {
     async create(data: CreateVeterinarianInterface) {
         const veterinarian = prisma.veterinarian.create({
             data
@@ -16,5 +17,14 @@ export class PrismaVeterinariansRepository {
             }
         })
         return veterinarian
+    }
+
+    async retrieveByCrmv(crmv: string): Promise<Veterinarian | null> {
+        const veterinarian = prisma.veterinarian.findUnique({
+            where: {
+                crmv
+            }
+        })
+        return veterinarian || null
     }
 }
