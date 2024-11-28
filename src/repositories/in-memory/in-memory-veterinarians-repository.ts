@@ -18,6 +18,11 @@ export class InMemoryVeterinariansRepository implements VeterinariansRepository 
         return veterinarian
     }
 
+    async retrieveAll(): Promise<Veterinarian[]> {
+        const veterinarians = this.veterinarians
+        return veterinarians
+    }
+
     async retrieveByUserId(id : number) : Promise<Veterinarian | null> {
         const veterinarian = this.veterinarians.find((veterinarian) => veterinarian.userId === id)
         return veterinarian || null

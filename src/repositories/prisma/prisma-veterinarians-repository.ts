@@ -10,6 +10,11 @@ export class PrismaVeterinariansRepository implements VeterinariansRepository {
         return veterinarian
     }
 
+    async retrieveAll(): Promise<Veterinarian[]> {
+        const veterinarians = prisma.veterinarian.findMany()
+        return veterinarians
+    }
+
     async retrieveByUserId(id: number) {
         const veterinarian = prisma.veterinarian.findUnique({
             where: {
