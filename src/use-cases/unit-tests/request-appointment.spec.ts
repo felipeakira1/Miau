@@ -3,15 +3,27 @@ import { AppointmentsRepository } from "../../repositories/appointments-reposito
 import { RequestAppointmentUseCase } from "../request-appointment";
 import { InMemoryAppointmentsRepository } from "../../repositories/in-memory/in-memory-appointments-repository";
 import { MissingFields } from "../errors/missing-fields";
+import { OwnersRepository } from "../../repositories/owners-repository";
+import { AnimalsRepository } from "../../repositories/animals-repository";
+import { VeterinariansRepository } from "../../repositories/veterinarians-repository";
+import { InMemoryOwnersRepository } from "../../repositories/in-memory/in-memory-owners-repository";
+import { InMemoryAnimalsRepository } from "../../repositories/in-memory/in-memory-animals-repository";
+import { InMemoryVeterinariansRepository } from "../../repositories/in-memory/in-memory-veterinarians-repository";
 
 
 describe('Request Appointment Use Case', () => {
+    let ownersRepository : OwnersRepository
+    let animalsRepository : AnimalsRepository
+    let veterinariansRepository: VeterinariansRepository
     let appointmentsRepository : AppointmentsRepository
     let sut : RequestAppointmentUseCase
     
     beforeEach(() => {
+        ownersRepository = new InMemoryOwnersRepository()
+        animalsRepository = new InMemoryAnimalsRepository()
+        veterinariansRepository = new InMemoryVeterinariansRepository()
         appointmentsRepository = new InMemoryAppointmentsRepository()
-        sut = new RequestAppointmentUseCase(appointmentsRepository)
+        sut = new RequestAppointmentUseCase(ownersRepository, animalsRepository, veterinariansRepository, appointmentsRepository)
     })
     
     it('should be able to request an appointment', async () => {
