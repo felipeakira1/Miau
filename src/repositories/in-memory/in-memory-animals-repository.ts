@@ -1,7 +1,8 @@
 import { Animal, Prisma } from "@prisma/client";
+import { AnimalsRepository } from "../animals-repository";
 
 
-export class InMemoryAnimalsRepository {
+export class InMemoryAnimalsRepository implements AnimalsRepository{
     private animals : Animal[] = []
     
     async create(data: Prisma.AnimalUncheckedCreateInput) {
@@ -29,5 +30,10 @@ export class InMemoryAnimalsRepository {
     async retrieveByOwnerId(ownerId : number) {
         const animals = this.animals.filter(animal => animal.ownerId === ownerId)
         return animals
+    }
+
+    async retrieveById(id: number): Promise<Animal | null> {
+        const animal = this.animals.find(animal => animal.id === id)
+        return animal || null
     }
 }
