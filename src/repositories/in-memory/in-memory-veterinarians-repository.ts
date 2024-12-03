@@ -32,4 +32,9 @@ export class InMemoryVeterinariansRepository implements VeterinariansRepository 
         const veterinarian = this.veterinarians.find((veterinarian) => veterinarian.crmv === crmv)
         return veterinarian || null
     }
+
+    async retrieveById(id: number): Promise<Veterinarian | null> {
+        const veterinarian = this.veterinarians.find((veterinarian) => veterinarian.id === id)
+        return veterinarian || null
+    }
 }

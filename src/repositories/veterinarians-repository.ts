@@ -12,4 +12,5 @@ export interface VeterinariansRepository {
     retrieveAll() : Promise<Veterinarian[]>
     retrieveByUserId(id : number) : Promise<Veterinarian | null>
     retrieveByCrmv(crmv: string): Promise<Veterinarian | null>
+    retrieveById(id: number) : Promise<Veterinarian | null>
 }

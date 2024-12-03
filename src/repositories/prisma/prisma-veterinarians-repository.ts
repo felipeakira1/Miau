@@ -32,4 +32,13 @@ export class PrismaVeterinariansRepository implements VeterinariansRepository {
         })
         return veterinarian || null
     }
+
+    async retrieveById(id: number) : Promise<Veterinarian | null> {
+        const veterinarian = prisma.veterinarian.findUnique({
+            where: {
+                id
+            }
+        })
+        return veterinarian
+    }
 }
