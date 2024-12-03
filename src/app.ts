@@ -27,8 +27,3 @@ app.register(fastifyCookie)
 app.register(userRoutes)
 app.register(ownerRoutes)
 app.register(veterinarianRoutes)
-
-app.get('/users', (request: FastifyRequest, reply: FastifyReply) => {
-    return reply.send({hello: 'world!'})
-})
-

@@ -36,4 +36,31 @@ describe('Authenticate (e2e)', () => {
         expect(response.statusCode).toEqual(200)
         expect(response.body.user.role).toEqual('OWNER')
     })
+
+    it('should be able to get the profile from a veterinarian', async() => {
+        await request(app.server)
+            .post('/veterinarians')
+            .send({
+                name: 'Felipe Akira',
+                email: 'felipe@example.com',
+                password: '123456',
+                crmv: '12345-SP',
+                speciality: 'Geral'
+            })
+        
+        const authResponse = await request(app.server)
+            .post('/authenticate')
+            .send({
+                email: 'felipe@example.com',
+                password: '123456'
+            })
+        const token = authResponse.body.token
+
+        const response = await request(app.server)
+            .get('/profile')
+            .set('Authorization', `Bearer ${token}`)
+        
+        expect(response.statusCode).toEqual(200)
+        expect(response.body.user.role).toEqual('VETERINARIAN')
+    })
 })

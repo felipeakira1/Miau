@@ -26,7 +26,8 @@ export async function authenticate(request : FastifyRequest, reply : FastifyRepl
 
         const refreshToken = await reply.jwtSign(
             {
-                sub: user.id
+                sub: user.id,
+                role: user.role
             },
             {
                 sign: {
@@ -45,6 +46,7 @@ export async function authenticate(request : FastifyRequest, reply : FastifyRepl
             .status(200)
             .send({token})
     } catch(err) {
-
+        console.log(err)
+        return reply.send(err)
     }
 }

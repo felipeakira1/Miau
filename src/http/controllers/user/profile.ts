@@ -6,6 +6,7 @@ import { makeFetchUserUseCase } from "../../../use-cases/factories/make-fetch-us
 
 export async function profile(request: FastifyRequest, reply: FastifyReply) {
     const role = request.user.role
+    console.log(role, request.user.sub)
     if(role === 'OWNER') {
         const getOwner = makeFetchOwnerUseCase()
         const { user, owner } = await getOwner.execute(Number(request.user.sub))
@@ -14,9 +15,11 @@ export async function profile(request: FastifyRequest, reply: FastifyReply) {
         const getVeterinarian = makeFetchVeterinarianUseCase()
         const { user, veterinarian } = await getVeterinarian.execute(Number(request.user.sub)) 
         return reply.status(200).send({user, veterinarian})
-    } else {
+    } else if (role === 'ADMIN') {
         const getUser = makeFetchUserUseCase()
         const { user } = await getUser.execute(Number(request.user.sub))
         return reply.status(200).send({user})
+    } else {
+        return reply.status(400).send({message: 'Invalid role'})
     }
 }

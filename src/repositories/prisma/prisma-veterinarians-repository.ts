@@ -18,7 +18,7 @@ export class PrismaVeterinariansRepository implements VeterinariansRepository {
     async retrieveByUserId(id: number) {
         const veterinarian = prisma.veterinarian.findUnique({
             where: {
-                id
+                userId: id
             }
         })
         return veterinarian
