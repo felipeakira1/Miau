@@ -2,9 +2,10 @@ import request from "supertest"
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../app";
 import { createOwnerAnimalAndVeterinarian } from "../../../utils/create-owner-animal-and-veterinarian";
+import { Appointment } from "@prisma/client";
 
 
-describe('Fetch Requested Appointmenst (e2e)', () => {
+describe('Accept Requested Appointmenst (e2e)', () => {
     beforeAll(async () => {
         await app.ready()
     })
@@ -13,9 +14,10 @@ describe('Fetch Requested Appointmenst (e2e)', () => {
         await app.close()
     })
 
-    it('should be able to fetch requested appointments', async() => {
+    it('should be able to accept a requested appointment', async() => {
         await createOwnerAnimalAndVeterinarian(app)
-        await request(app.server)
+        
+        const appointmentResponse = await request(app.server)
             .post('/appointments')
             .send({
                 date: new Date(2024, 12, 3),
@@ -39,7 +41,7 @@ describe('Fetch Requested Appointmenst (e2e)', () => {
         const token = authResponse.body.token
 
         const response = await request(app.server)
-            .get('/appointments/requested')
+            .get(`/appointments/${appointmentResponse.body.appointment.id}/accept`)
             .set('Authorization', `Bearer ${token}`)
         
         expect(response.statusCode).toEqual(200)

@@ -1,8 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
+import { number, z } from "zod";
 import { makeRequestAppointmentUseCase } from "../../use-cases/factories/make-request-appointment-use-case";
 import { MissingFields } from "../../use-cases/errors/missing-fields";
 import { MakeFetchRequestedAppointmentsUseCase } from "../../use-cases/factories/make-fetch-requested-appointments-use-case";
+import { MakeAcceptRequestedAppointmentUseCase } from "../../use-cases/factories/make-accept-requested-appointment-use-case";
+import { ResourceNotFound } from "../../use-cases/errors/resource-not-found";
+import { InvalidStatus } from "../../use-cases/errors/invalid-status";
 
 
 export class AppointmentsController {
@@ -51,5 +54,25 @@ export class AppointmentsController {
         } catch(err) {
             return reply.status(500).send(err)
         }
+    }
+
+    async acceptAppointment(request : FastifyRequest, reply: FastifyReply) {
+        const acceptAppointmentParamsSchema = z.object({
+            id: z.number()
+        })
+        try {
+            const { id } = acceptAppointmentParamsSchema.parse(request.params)
+            const acceptAppointment = MakeAcceptRequestedAppointmentUseCase()
+            await acceptAppointment.execute({appointmentId: id})
+            return reply.status(200)
+        } catch(err) {
+            if(err instanceof ResourceNotFound) {
+                return reply.status(404).send({messsage: err.message})
+            } else if(err instanceof InvalidStatus) {
+                return reply.status(400).send({message: err.message})
+            }
+            return reply.status(500).send({err})
+        }
+        
     }
 }
