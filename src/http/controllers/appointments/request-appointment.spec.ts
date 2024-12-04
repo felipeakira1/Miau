@@ -13,6 +13,40 @@ describe('Request Appointment (e2e)', () => {
     })
 
     it('should be able to request an appointment', async() => {
+        await request(app.server)
+            .post('/owners')
+            .send({
+                name: 'John Doe',
+                email: 'johndoe@example.com',
+                password: '123456',
+                phone: '11999998888',
+                address: 'Rua dos tutores 1'
+            })
+
+        await request(app.server)
+            .post('/animals')
+            .send({
+                name: 'Ares',
+                species: 'Gato',
+                breed: 'SRA',
+                birthDate: '2024-12-03T10:00:00Z',
+                weight: 6,
+                imageUrl: '/assets',
+                ownerId: 1
+            })
+            
+        await request(app.server)
+            .post('/veterinarians')
+            .send({
+                name: 'Felipe Akira',
+                email: 'felipe@example.com',
+                password: '123456',
+                crmv: '11111-SP',
+                speciality: 'Geral',
+                phone: '(11) 11111-1111',
+                address: 'Rua dos veterinarios 2',
+                imageUrl: 'assets/image2.png'
+            })
         const response = await request(app.server)
             .post('/appointments')
             .send({

@@ -26,12 +26,12 @@
 
 ### Consultas
 [X] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>
-[X] Deve ser possível que o veterinário aceite uma solicitação de consulta</br>
-[X] Deve ser possível que o veterinário recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
-[X] Deve ser possível que o veterinário finalize uma consulta</br>
+[] Deve ser possível que o veterinário aceite uma solicitação de consulta</br>
+[] Deve ser possível que o veterinário recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
+[] Deve ser possível que o veterinário finalize uma consulta</br>
 [] Deve ser possível que o tutor cancele uma solicitação de consulta</br>
 [] Deve ser possível que o tutor cancele uma consulta</br>
-[X] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
+[] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
 [] Deve ser possível que o veterinário visualize todas as suas consultas em andamento.</br>
 [] Deve ser possível que o veterinário visualize todas as consultas finalizadas.</br>
 
@@ -59,7 +59,7 @@
 [X] PATCH /token/refresh - Atualizar token de autenticação</br>
 
 ### Owners
-[X] POST /owners/register - Registrar um tutor</br>
+[X] POST /owners - Registrar um tutor</br>
 [] GET /owners</br>
 [] GET /owners/:id</br>
 [] PUT /owners/:id</br>
@@ -73,14 +73,14 @@
 [] DELETE /veterinarians/:id</br>
 
 ### Animals
-[] POST /animals</br> - Criar um animal</br>
+[X] POST /animals</br> - Criar um animal</br>
 [] GET /animals</br>
 [] GET /animals/:ownerId/animals</br>
 [] GET /animals/:id</br>
 [] PUT /animals/:id</br>
 [] DELETE /animals/:id</br>
 
-[] POST /appointments</br>
+[X] POST /appointments</br> - Solicitar uma consulta</br>
 [] GET /appointments</br>
 [] GET /appointments/:id</br>
 [] PUT /appointments/:id/accept</br>

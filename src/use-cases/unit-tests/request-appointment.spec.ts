@@ -27,6 +27,23 @@ describe('Request Appointment Use Case', () => {
     })
     
     it('should be able to request an appointment', async () => {
+        await ownersRepository.create({
+            userId: 1,
+        })
+        await animalsRepository.create({
+            name: 'Ares',
+            species: 'Gato',
+            breed: 'SRA',
+            birthDate: new Date(),
+            weight: 5.0,
+            imageUrl: '/img',
+            ownerId: 1
+        })
+        await veterinariansRepository.create({
+            userId: 1,
+            crmv: '11111',
+            speciality: 'Geral'
+        })
         const { appointment } = await sut.execute({
             date: new Date(2023, 11, 10),
             ownerId: 1,
