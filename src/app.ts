@@ -7,6 +7,7 @@ import { logRoute } from "./http/hooks/log"
 import fastifyCookie from "@fastify/cookie"
 import { veterinarianRoutes } from "./http/controllers/veterinarian/routes"
 import { appointmentsRoutes } from "./http/controllers/appointments/routes"
+import { animalRoutes } from "./http/controllers/animal-routes"
 
 export const app = fastify()
 
@@ -26,5 +27,6 @@ app.register(fastifyJwt, {
 app.register(fastifyCookie)
 app.register(userRoutes)
 app.register(ownerRoutes)
+app.register(animalRoutes)
 app.register(veterinarianRoutes)
 app.register(appointmentsRoutes)
