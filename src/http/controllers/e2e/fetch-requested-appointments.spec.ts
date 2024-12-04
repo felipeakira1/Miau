@@ -1,9 +1,10 @@
 import request from "supertest"
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { app } from "../../../app";
+import { createOwnerAnimalAndVeterinarian } from "../../../utils/create-owner-animal-and-veterinarian";
 
 
-describe('Request Appointment (e2e)', () => {
+describe('Fetch Requested Appointmenst (e2e)', () => {
     beforeAll(async () => {
         await app.ready()
     })
@@ -12,9 +13,11 @@ describe('Request Appointment (e2e)', () => {
         await app.close()
     })
 
-    it('should be able to request an appointment', async() => {
+    it('should be able to fetch requested appointments', async() => {
+        await createOwnerAnimalAndVeterinarian(app)
+        
         await request(app.server)
-            .post('/owners')
+            .post('/appointments/requested')
             .send({
                 name: 'John Doe',
                 email: 'johndoe@example.com',
@@ -47,7 +50,7 @@ describe('Request Appointment (e2e)', () => {
                 address: 'Rua dos veterinarios 2',
                 imageUrl: 'assets/image2.png'
             })
-        const response = await request(app.server)
+        await request(app.server)
             .post('/appointments')
             .send({
                 date: new Date(2024, 12, 3),
@@ -61,7 +64,19 @@ describe('Request Appointment (e2e)', () => {
                     new Date('2023-12-03T12:00:00Z')
                 ]
             })
+        
+        const authResponse = await request(app.server)
+            .post('/authenticate').send({
+                email: 'felipe@example.com',
+                password: '123456',
+            })
+        
+        const token = authResponse.body.token
 
-        expect(response.statusCode).toEqual(201)
+        const response = await request(app.server)
+            .get('/appointments/requested')
+            .set('Authorization', `Bearer ${token}`)
+        
+        expect(response.statusCode).toEqual(200)
     })
 })
