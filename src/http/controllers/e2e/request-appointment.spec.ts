@@ -23,7 +23,7 @@ describe('Request Appointment (e2e)', () => {
                 description: 'Sujeira nos ouvidos',
                 ownerId: 1,
                 animalId: 1,
-                veterinarianId: 1,
+                veterinarianId: 2,
                 preferredDates: [
                     new Date('2023-12-03T10:00:00Z'),
                     new Date('2023-12-03T11:00:00Z'),

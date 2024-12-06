@@ -27,7 +27,7 @@ export class AppointmentsController {
                 parsedPreferredDates.push(new Date(date))
             })
             const requestAppointment = makeRequestAppointmentUseCase()
-            const appointment = await requestAppointment.execute({
+            const {appointment} = await requestAppointment.execute({
                 date: parsedDate,
                 description,
                 ownerId,
@@ -58,13 +58,13 @@ export class AppointmentsController {
 
     async acceptAppointment(request : FastifyRequest, reply: FastifyReply) {
         const acceptAppointmentParamsSchema = z.object({
-            id: z.number()
+            id: z.string()
         })
         try {
-            const { id } = acceptAppointmentParamsSchema.parse(request.params)
+            const id = Number(acceptAppointmentParamsSchema.parse(request.params).id)
             const acceptAppointment = MakeAcceptRequestedAppointmentUseCase()
-            await acceptAppointment.execute({appointmentId: id})
-            return reply.status(200)
+            const { updatedAppointment } = await acceptAppointment.execute({appointmentId: id})
+            return reply.status(200).send({updatedAppointment})
         } catch(err) {
             if(err instanceof ResourceNotFound) {
                 return reply.status(404).send({messsage: err.message})

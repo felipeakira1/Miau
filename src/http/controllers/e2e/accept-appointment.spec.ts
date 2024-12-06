@@ -24,7 +24,7 @@ describe('Accept Requested Appointmenst (e2e)', () => {
                 description: 'Sujeira nos ouvidos',
                 ownerId: 1,
                 animalId: 1,
-                veterinarianId: 1,
+                veterinarianId: 2,
                 preferredDates: [
                     new Date('2023-12-03T10:00:00Z'),
                     new Date('2023-12-03T11:00:00Z'),
@@ -37,7 +37,6 @@ describe('Accept Requested Appointmenst (e2e)', () => {
                 email: 'gabi@example.com',
                 password: '123456',
             })
-        
         
         const appointmentId = appointmentResponse.body.appointment.id
         const token = authResponse.body.token
