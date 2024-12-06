@@ -31,11 +31,12 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository{
     }
 
     async update(data: updateAppointment) {
-        const appointment = prisma.appointment.update({
+        const appointment = await prisma.appointment.update({
             where: {
                 id: data.id
             },
             data
         })
+        return appointment
     }
 }

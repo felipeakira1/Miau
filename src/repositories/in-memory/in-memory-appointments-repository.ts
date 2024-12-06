@@ -1,7 +1,7 @@
 import { Appointment, Owner, Prisma } from "@prisma/client";
-import { updateAppointment } from "../appointments-repository";
+import { AppointmentsRepository, updateAppointment } from "../appointments-repository";
 
-export class InMemoryAppointmentsRepository {
+export class InMemoryAppointmentsRepository implements AppointmentsRepository{
     private appointments : Appointment[] = []
     
     async create(data: Prisma.AppointmentUncheckedCreateInput) : Promise<Appointment> {
@@ -31,22 +31,26 @@ export class InMemoryAppointmentsRepository {
         return appointment ? appointment : null
     }
 
-    async update({id, description, ownerId, animalId, veterinarianId, status, acceptedDate, observations } : updateAppointment) : Promise<void> {
+    async update({id, description, ownerId, animalId, veterinarianId, status, acceptedDate, observations } : updateAppointment) : Promise<Appointment> {
         const appointmentIndex = this.appointments.findIndex(appointment => appointment.id === id);
 
-        if (appointmentIndex !== -1) {
-            const appointment = this.appointments[appointmentIndex];
-            this.appointments[appointmentIndex] = {
-                ...appointment,
-                description: description ?? appointment.description,
-                ownerId: ownerId ?? appointment.ownerId,
-                animalId: animalId ?? appointment.animalId,
-                veterinarianId: veterinarianId ?? appointment.veterinarianId,
-                status: status ?? appointment.status,
-                acceptedDate: acceptedDate ?? appointment.acceptedDate,
-                observations: observations ?? appointment.observations,
-                updatedAt: new Date(),
-            };
+        if (appointmentIndex === -1) {
+            throw new Error(`Appointment with ID ${id} not found`);
         }
+        
+        const appointment = this.appointments[appointmentIndex];
+        const updatedAppointment = {
+            ...appointment,
+            description: description ?? appointment.description,
+            ownerId: ownerId ?? appointment.ownerId,
+            animalId: animalId ?? appointment.animalId,
+            veterinarianId: veterinarianId ?? appointment.veterinarianId,
+            status: status ?? appointment.status,
+            acceptedDate: acceptedDate ?? appointment.acceptedDate,
+            observations: observations ?? appointment.observations,
+            updatedAt: new Date(),
+        };
+        this.appointments[appointmentIndex] = appointment
+        return updatedAppointment
     }
 }
