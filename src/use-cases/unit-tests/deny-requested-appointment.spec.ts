@@ -18,12 +18,12 @@ describe('Deny Requested Appointment Use Case', () => {
     })
 
     it('should be able to deny a requested appointment', async () => {
-        await appointmentsRepository.create({
+        const createdAppointment = await appointmentsRepository.create({
             date: new Date(2023, 11, 10),
             ownerId: 1,
             animalId: 1,
             description: 'Sujeira nos ouvidos',
-            veterinarianId: 1,
+            veterinarianId: 2,
             status: 'Solicitado',
             preferredDates: [
                 new Date('2023-11-01T10:00:00Z'),
@@ -31,9 +31,8 @@ describe('Deny Requested Appointment Use Case', () => {
                 new Date('2023-11-03T10:00:00Z')
             ],
         } as Appointment)
-        await sut.execute({appointmentId: 1})
-        const appointment = await appointmentsRepository.retrieveById(1)
-        expect(appointment?.status).toEqual('Recusado')
+        const updatedAppointment = await sut.execute({appointmentId: createdAppointment!.id})
+        expect(updatedAppointment!.status).toEqual('Recusado')
     })
     
     it('should not be able to deny a non-existent appointment', async () => {

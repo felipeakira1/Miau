@@ -18,7 +18,7 @@ describe('Finish Appointment Use Case', () => {
     })
 
     it('should be able to finish an appointment', async () => {
-        await appointmentsRepository.create({
+        const createdAppointment = await appointmentsRepository.create({
             date: new Date(2023, 11, 10),
             ownerId: 1,
             animalId: 1,
@@ -32,9 +32,8 @@ describe('Finish Appointment Use Case', () => {
                 new Date('2023-11-03T10:00:00Z')
             ],
         } as Appointment)
-        await sut.execute({appointmentId: 1})
-        const appointment = await appointmentsRepository.retrieveById(1)
-        expect(appointment?.status).toEqual('Finalizado')
+        const updatedAppointment = await sut.execute({appointmentId: createdAppointment!.id})
+        expect(updatedAppointment!.status).toEqual('Finalizado')
     })
     
     it('should not be able to finish a non-existent appointment', async () => {

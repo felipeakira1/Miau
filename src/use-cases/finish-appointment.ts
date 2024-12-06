@@ -18,6 +18,7 @@ export class FinishAppointment {
         if(appointment.status !== 'Aceito') {
             throw new InvalidStatus()
         }
-        await this.appointmentsRepository.update({id: appointmentId, status: 'Finalizado'})
+        const updatedAppointment = await this.appointmentsRepository.update({id: appointmentId, status: 'Finalizado'})
+        return updatedAppointment
     }
 }

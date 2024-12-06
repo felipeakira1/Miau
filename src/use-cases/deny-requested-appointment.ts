@@ -18,6 +18,7 @@ export class DenyRequestedAppointment {
         if(appointment.status !== 'Solicitado') {
             throw new InvalidStatus()
         }
-        await this.appointmentsRepository.update({id: appointmentId, status: 'Recusado'})
+        const updatedAppointment = await this.appointmentsRepository.update({id: appointmentId, status: 'Recusado'})
+        return updatedAppointment
     }
 }
