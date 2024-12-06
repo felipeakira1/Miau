@@ -14,7 +14,7 @@ export const app = fastify()
 app.addHook('onRequest', logRoute)
 
 app.register(fastifyJwt, {
-    secret: env.JWT_SECRET,
+    secret: 'miau',
     cookie: {
         cookieName: 'refreshToken',
         signed: false

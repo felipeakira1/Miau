@@ -34,14 +34,16 @@ describe('Accept Requested Appointmenst (e2e)', () => {
         
         const authResponse = await request(app.server)
             .post('/authenticate').send({
-                email: 'felipe@example.com',
+                email: 'gabi@example.com',
                 password: '123456',
             })
         
+        
+        const appointmentId = appointmentResponse.body.appointment.id
         const token = authResponse.body.token
 
         const response = await request(app.server)
-            .get(`/appointments/${appointmentResponse.body.appointment.id}/accept`)
+            .patch(`/appointments/${appointmentId}/accept`)
             .set('Authorization', `Bearer ${token}`)
         
         expect(response.statusCode).toEqual(200)

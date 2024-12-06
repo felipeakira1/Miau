@@ -38,7 +38,7 @@ export class RequestAppointmentUseCase {
 
         const owner = await this.ownersRepository.retrieveByUserId(ownerId)
         const animal = await this.animalsRepository.retrieveById(animalId)
-        const veterinarian = await this.veterinariansRepository.retrieveById(veterinarianId)
+        const veterinarian = await this.veterinariansRepository.retrieveByUserId(veterinarianId)
 
         if(!owner || !animal || !veterinarian) {
             throw new ResourceNotFound()
@@ -49,7 +49,7 @@ export class RequestAppointmentUseCase {
             description,
             ownerId,
             animalId,
-            veterinarianId,
+            veterinarianId: veterinarian.userId,
             status: 'Solicitado',
             preferredDates
         })

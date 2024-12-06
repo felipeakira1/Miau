@@ -80,11 +80,11 @@ model Appointment {
   id Int @id @default(autoincrement())
   date DateTime
   description String
-  owner Owner @relation(fields: [ownerId], references: [id])
+  owner Owner @relation(fields: [ownerId], references: [userId])
   ownerId Int
   animal Animal @relation(fields: [animalId], references: [id])
   animalId Int
-  veterinarian Veterinarian @relation(fields: [veterinarianId], references: [id])
+  veterinarian Veterinarian @relation(fields: [veterinarianId], references: [userId])
   veterinarianId Int
   status String
   preferredDates DateTime[]
