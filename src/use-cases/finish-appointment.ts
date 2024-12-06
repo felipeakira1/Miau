@@ -19,6 +19,6 @@ export class FinishAppointment {
             throw new InvalidStatus()
         }
         const updatedAppointment = await this.appointmentsRepository.update({id: appointmentId, status: 'Finalizado'})
-        return updatedAppointment
+        return {updatedAppointment}
     }
 }

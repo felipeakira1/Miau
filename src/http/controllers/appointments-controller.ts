@@ -7,6 +7,7 @@ import { MakeAcceptRequestedAppointmentUseCase } from "../../use-cases/factories
 import { ResourceNotFound } from "../../use-cases/errors/resource-not-found";
 import { InvalidStatus } from "../../use-cases/errors/invalid-status";
 import { MakeDenyRequestedAppointmentUseCase } from "../../use-cases/factories/make-deny-requested-appointment-use-case";
+import { MakeFinishAppointmentUseCase } from "../../use-cases/factories/make-finish-appointment-use-case";
 
 
 export class AppointmentsController {
@@ -84,6 +85,25 @@ export class AppointmentsController {
             const id = Number(denyAppointmentParamsSchema.parse(request.params).id)
             const denyAppointment = MakeDenyRequestedAppointmentUseCase()
             const { updatedAppointment } = await denyAppointment.execute({appointmentId: id})
+            return reply.status(200).send({updatedAppointment})
+        } catch(err) {
+            if(err instanceof ResourceNotFound) {
+                return reply.status(404).send({messsage: err.message})
+            } else if(err instanceof InvalidStatus) {
+                return reply.status(400).send({message: err.message})
+            }
+            return reply.status(500).send({err})
+        }
+    }
+
+    async finishAppointment(request : FastifyRequest, reply: FastifyReply) {
+        const finishAppointmentParamsSchema = z.object({
+            id: z.string()
+        })
+        try {
+            const id = Number(finishAppointmentParamsSchema.parse(request.params).id)
+            const finishAppointment = MakeFinishAppointmentUseCase()
+            const { updatedAppointment } = await finishAppointment.execute({appointmentId: id})
             return reply.status(200).send({updatedAppointment})
         } catch(err) {
             if(err instanceof ResourceNotFound) {
