@@ -10,4 +10,6 @@ export async function appointmentsRoutes(app: FastifyInstance) {
     app.post('/appointments', appointmentsController.requestAppointment)
     app.get('/appointments/requested', { onRequest: verifyJWT }, appointmentsController.fetchRequestedAppointments)
     app.patch('/appointments/:id/accept', { onRequest: [verifyJWT, verifyUserRole("VETERINARIAN")]}, appointmentsController.acceptAppointment)
+    app.patch('/appointments/:id/deny', { onRequest: [verifyJWT, verifyUserRole("VETERINARIAN")]}, appointmentsController.denyAppointment)
+
 }
