@@ -32,7 +32,7 @@ describe('Finish Appointment Use Case', () => {
                 new Date('2023-11-03T10:00:00Z')
             ],
         } as Appointment)
-        const updatedAppointment = await sut.execute({appointmentId: createdAppointment!.id})
+        const {updatedAppointment} = await sut.execute({appointmentId: createdAppointment!.id})
         expect(updatedAppointment!.status).toEqual('Finalizado')
     })
     
