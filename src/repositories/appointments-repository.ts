@@ -3,9 +3,6 @@ import { Appointment, Prisma } from "@prisma/client";
 export interface updateAppointment {
     id: number,
     description?: string,
-    ownerId?: number,
-    veterinarianId?: number,
-    animalId?: number,
     status?: string,
     acceptedDate?: Date,
     observations?: string
