@@ -11,6 +11,7 @@ export interface updateAppointment {
 export interface AppointmentsRepository {
     create(data: Prisma.AppointmentUncheckedCreateInput) : Promise<Appointment | null>
     retrieveRequestedAppointmentsByVeterinarianId(veterinarianId : number) : Promise<Appointment[]>
+    retrieveByOwnerId(ownerId: number): Promise<Appointment[]>
     retrieveById(id: number) : Promise<Appointment | null>
     update(data: updateAppointment) : Promise<Appointment>
 }

@@ -26,12 +26,17 @@ export class InMemoryAppointmentsRepository implements AppointmentsRepository{
         return appointments
     }
 
+    async retrieveByOwnerId(ownerId: number): Promise<Appointment[]> {
+        const appointments = this.appointments.filter(appointment => appointment.ownerId === ownerId)
+        return appointments
+    }
+
     async retrieveById(id: number) : Promise<Appointment | null> {
         const appointment = this.appointments.find(appointment => appointment.id === id)
         return appointment ? appointment : null
     }
 
-    async update({id, description, ownerId, animalId, veterinarianId, status, acceptedDate, observations } : updateAppointment) : Promise<Appointment> {
+    async update({id, description, status, acceptedDate, observations } : updateAppointment) : Promise<Appointment> {
         const appointmentIndex = this.appointments.findIndex(appointment => appointment.id === id);
 
         if (appointmentIndex === -1) {
@@ -42,9 +47,6 @@ export class InMemoryAppointmentsRepository implements AppointmentsRepository{
         const updatedAppointment = {
             ...appointment,
             description: description ?? appointment.description,
-            ownerId: ownerId ?? appointment.ownerId,
-            animalId: animalId ?? appointment.animalId,
-            veterinarianId: veterinarianId ?? appointment.veterinarianId,
             status: status ?? appointment.status,
             acceptedDate: acceptedDate ?? appointment.acceptedDate,
             observations: observations ?? appointment.observations,
