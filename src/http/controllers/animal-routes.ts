@@ -5,4 +5,5 @@ export async function animalRoutes(app : FastifyInstance) {
     const animalController = new AnimalController()
     
     app.post('/animals', animalController.createAnimal)
+    app.post('/animals/:id/upload', animalController.updateAnimalImageUrl)
 }

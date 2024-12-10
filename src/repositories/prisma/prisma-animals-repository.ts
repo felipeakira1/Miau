@@ -1,23 +1,23 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
-import { AnimalsRepository } from "../animals-repository";
+import { AnimalsRepository, updateAnimal } from "../animals-repository";
 
 
 export class PrismaAnimalsRepository implements AnimalsRepository {
     async create(data: Prisma.AnimalUncheckedCreateInput) {
-        const animal = prisma.animal.create({
+        const animal = await prisma.animal.create({
             data
         })
         return animal
     }
 
     async retrieveAll() {
-        const animals = prisma.animal.findMany()
+        const animals = await prisma.animal.findMany()
         return animals
     }
 
     async retrieveByOwnerId(ownerId: number) {
-        const animals = prisma.animal.findMany({
+        const animals = await prisma.animal.findMany({
             where: {
                 ownerId
             }
@@ -26,10 +26,20 @@ export class PrismaAnimalsRepository implements AnimalsRepository {
     }
 
     async retrieveById(id: number) {
-        const animal = prisma.animal.findUnique({
+        const animal = await prisma.animal.findUnique({
             where: {
                 id
             }
+        })
+        return animal
+    }
+
+    async update(data: updateAnimal) {
+        const animal = await prisma.animal.update({
+            where: {
+                id: data.id
+            },
+            data
         })
         return animal
     }

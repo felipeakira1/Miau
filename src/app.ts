@@ -1,6 +1,6 @@
 import fastify, { FastifyReply, FastifyRequest } from "fastify"
 import fastifyJwt from "@fastify/jwt"
-import { env } from "./env"
+import fastifyMultipart from "@fastify/multipart"
 import { logRoute } from "./http/hooks/log"
 import fastifyCookie from "@fastify/cookie"
 import { userRoutes } from "./http/controllers/user/routes"
@@ -24,6 +24,7 @@ app.register(fastifyJwt, {
     }
 })
 
+app.register(fastifyMultipart)
 app.register(fastifyCookie)
 app.register(userRoutes)
 app.register(ownerRoutes)
