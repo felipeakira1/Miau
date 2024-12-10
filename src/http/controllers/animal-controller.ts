@@ -7,6 +7,8 @@ import fs from "fs";
 import { promisify } from "util";
 import { pipeline } from "stream";
 import { MakeUpdateAnimalUseCase } from "../../use-cases/factories/make-update-animal-use-case";
+import { MakeFetchAllAnimaislUseCase } from "../../use-cases/factories/make-fetch-all-animals-use-case";
+import { generateImageUrl } from "../../utils/generateImageUrl";
 
 export class AnimalController {
     async createAnimal(request: FastifyRequest, reply: FastifyReply) {
@@ -42,6 +44,21 @@ export class AnimalController {
         
     }
 
+    async fetchAllAnimals(request: FastifyRequest, reply: FastifyReply) {
+        const fetchAllAnimais = MakeFetchAllAnimaislUseCase()
+        try {
+            const { animals } = await fetchAllAnimais.execute()
+            for (let animal of animals) {
+                if(animal.imageUrl) {
+                    animal.imageUrl = generateImageUrl(animal.imageUrl)
+                }
+            }
+            return reply.status(200).send({animals})
+        } catch(err) {
+            return reply.status(500).send({err})
+        }
+        
+    }
     async updateAnimalImageUrl(request : FastifyRequest, reply: FastifyReply) {
         const updateAnimalParamsSchema = z.object({
             id: z.string()

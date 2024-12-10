@@ -8,6 +8,9 @@ import { ownerRoutes } from "./http/controllers/owner/routes"
 import { animalRoutes } from "./http/controllers/animal-routes"
 import { veterinarianRoutes } from "./http/controllers/veterinarian/routes"
 import { appointmentsRoutes } from "./http/controllers/appointments-routes"
+import path from "path"
+import fs from "fs"
+import fastifyStatic from "@fastify/static"
 
 export const app = fastify()
 
@@ -22,6 +25,11 @@ app.register(fastifyJwt, {
     sign: {
         expiresIn: '10m'
     }
+})
+
+app.register(fastifyStatic, {
+    root: path.join(process.cwd(), 'uploads'),
+    prefix: '/uploads/',
 })
 
 app.register(fastifyMultipart)
