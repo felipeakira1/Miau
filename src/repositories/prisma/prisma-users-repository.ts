@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
-import { UsersRepository } from "../users-repository";
+import { updateUser, UsersRepository } from "../users-repository";
 
 
 export class PrismaUsersRepository implements UsersRepository {
@@ -30,6 +30,16 @@ export class PrismaUsersRepository implements UsersRepository {
             where: {
                 id
             }
+        })
+        return user
+    }
+
+    async update(data: updateUser) {
+        const user = await prisma.user.update({
+            where: {
+                id: data.id
+            },
+            data
         })
         return user
     }
