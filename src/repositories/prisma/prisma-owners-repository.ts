@@ -10,7 +10,11 @@ export class PrismaOwnersRepository implements OwnersRepository {
     }
 
     async retrieveAll() {
-        const owners = await prisma.owner.findMany()
+        const owners = await prisma.owner.findMany({
+            include: {
+                user: true
+            }
+        })
         return owners
     }
 
