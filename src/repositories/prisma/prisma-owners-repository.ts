@@ -26,4 +26,14 @@ export class PrismaOwnersRepository implements OwnersRepository {
         })
         return owner
     }
+
+    async update(data: CreateUserInterface) {
+        const owner = await prisma.owner.update({
+            where: {
+                userId: data.userId
+            },
+            data
+        })
+        return owner
+    }
 }
