@@ -11,7 +11,11 @@ export class PrismaVeterinariansRepository implements VeterinariansRepository {
     }
 
     async retrieveAll(): Promise<Veterinarian[]> {
-        const veterinarians = prisma.veterinarian.findMany()
+        const veterinarians = prisma.veterinarian.findMany({
+            include: {
+                user: true
+            }
+        })
         return veterinarians
     }
 
