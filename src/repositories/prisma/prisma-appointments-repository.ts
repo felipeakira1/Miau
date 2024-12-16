@@ -29,6 +29,15 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository{
         })
         return appointments
     }
+
+    async retrieveByAnimalId(animalId: number): Promise<Appointment[]> {
+        const appointments = await prisma.appointment.findMany({
+            where: {
+                animalId
+            }
+        })
+        return appointments
+    }
     async retrieveById(id: number): Promise<Appointment | null> {
         const appointment = prisma.appointment.findUnique({
             where: {

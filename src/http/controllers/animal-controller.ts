@@ -9,6 +9,7 @@ import { pipeline } from "stream";
 import { MakeUpdateAnimalUseCase } from "../../use-cases/factories/make-update-animal-use-case";
 import { MakeFetchAllAnimaislUseCase } from "../../use-cases/factories/make-fetch-all-animals-use-case";
 import { generateImageUrl } from "../../utils/generateImageUrl";
+import { MakeFetchAppointmentsByAnimalUseCase } from "../../use-cases/factories/make-fetch-appointments-by-animal-use-case";
 
 export class AnimalController {
     async createAnimal(request: FastifyRequest, reply: FastifyReply) {
@@ -38,10 +39,6 @@ export class AnimalController {
             console.error(err)
             return reply.status(500).send({message: 'Internal Error'})
         }
-    }
-
-    async fetchAnimalsByOwnerId(request : FastifyRequest, reply: FastifyReply) {
-        
     }
 
     async fetchAllAnimals(request: FastifyRequest, reply: FastifyReply) {
@@ -96,4 +93,19 @@ export class AnimalController {
             return reply.status(500).send({error: 'Upload failed'})
         }
     } 
+
+    async fetchAppointmentsByAnimalId(request: FastifyRequest, reply: FastifyReply) {
+        const fetchAppointmentsByAnimalIdParamsSchema = z.object({
+            id: z.string()
+        })
+
+        try {
+            const id = Number(fetchAppointmentsByAnimalIdParamsSchema.parse(request.params).id)
+            const fetchAppointmentsByAnimalId = MakeFetchAppointmentsByAnimalUseCase()
+            const { appointments } = await fetchAppointmentsByAnimalId.execute({animalId: id})
+            return reply.status(200).send({appointments})
+        } catch(err) {
+            return reply.status(500)
+        }
+    }
 }

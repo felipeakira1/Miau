@@ -2,33 +2,37 @@
 
 ## Requisitos funcionais
 ### Autenticação
-[] Deve ser possível se autenticar como admin</br>
+[X] Deve ser possível se autenticar como admin</br>
 [X] Deve ser possível se autenticar como tutor</br>
 [X] Deve ser possível se autenticar como veterinario</br>
 
 ### Animais
 [X] Deve ser possível cadastrar um animal</br>
-[] Deve ser possível atualizar os dados de um animal</br>
+[X] Deve ser possível atualizar os dados de um animal</br>
 [] Deve ser possível excluir um animal</br>
 [X] Deve ser possível visualizar todos os animais do sistema</br>
-[X] Deve ser possível visualizar todos os animais de um tutor</br>
+[ ] Deve ser possível visualizar todas as consultas de um animal </br> 
 
 ### Tutores
 [X] Deve ser possível cadastrar um tutor</br>
-[] Deve ser possível atualizar os dados de um tutor</br>
-[] Deve ser possível excluir um tutor</br>
-[] Deve ser possível visualizar todos os tutores do sistema</br>
+[X] Deve ser possível atualizar os dados de um tutor</br>
+[ ] Deve ser possível excluir um tutor</br>
+[X] Deve ser possível visualizar todos os tutores do sistema</br>
+[X] Deve ser possível visualizar todos os animais de um tutor</br>
+[ ] Deve ser possível visualizar todas as consultas de um tutor</br> 
 
 ### Veterinario
 [X] Deve ser possível cadastrar um veterinário</br>
-[] Deve ser possível atualizar os dados de um veterinário</br>
+[X] Deve ser possível atualizar os dados de um veterinário</br>
 [] Deve ser possível excluir um veterinário</br>
+[X] Deve ser possível visualizar todos os veterinarios do sistema</br>
+[X] Deve ser possível visualizar todas as consutlas de um veterinario</br>
 
 ### Consultas
 [X] Deve ser possível que o tutor solicite uma consulta em um determinado dia e enviando três horários de disponibilidade</br>
-[] Deve ser possível que o veterinário aceite uma solicitação de consulta</br>
+[X] Deve ser possível que o veterinário aceite uma solicitação de consulta</br>
 [] Deve ser possível que o veterinário recuse uma solicitação de consulta, dando uma justificativa para a recusa.</br>
-[] Deve ser possível que o veterinário finalize uma consulta</br>
+[X] Deve ser possível que o veterinário finalize uma consulta</br>
 [] Deve ser possível que o tutor cancele uma solicitação de consulta</br>
 [] Deve ser possível que o tutor cancele uma consulta</br>
 [] Deve ser possível que o veterinário visualize todas as consultas solicitadas para ele.</br>
