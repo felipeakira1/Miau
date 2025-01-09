@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { AnimalController } from "./animal-controller";
+import { AnimalController } from "../controllers/animal-controller";
 import { FetchAppointmentsByAnimal } from "../../use-cases/fetch-appointments-by-animal";
 
 export async function animalRoutes(app : FastifyInstance) {

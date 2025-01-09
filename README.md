@@ -60,40 +60,39 @@
 ### Users
 [X] POST /authenticate - Autenticação</br>
 [X] GET /profile - Obter dados do usuário autenticado</br>
+[X] GET /users - Obter todos os usuários</br>
 [X] PATCH /token/refresh - Atualizar token de autenticação</br>
 
 ### Owners
 [X] POST /owners - Registrar um tutor</br>
-[] GET /owners</br>
-[] GET /owners/:id</br>
-[] PUT /owners/:id</br>
+[X] GET /owners - Obter todos os tutores</br>
+[X] GET /owners/:id/animals - Obter todos os animais de um tutor</br>
+[X] GET /owners/:id/appointments - Obter todas as consultas de um tutor</br>
+[] PUT /owners/:id - Atualizar um tutor</br>
 [] DELETE /owner/:id</br>
 
 ### Veterinarians
 [X] POST /veterinarians - Criar um veterinario</br>
-[] GET /veterinarians</br>
-[] GET /veterinarians/:id</br>
-[] PUT /veterinarians/:id</br>
-[] DELETE /veterinarians/:id</br>
+[X] GET /veterinarians - Obter todos os veterinarios</br>
+[] GET /veterinarians/:id/appointments - Obter todas as consultas de um tutor</br>
+[] PUT /veterinarians/:id - Atualizar dados de um veterinario</br>
+[] DELETE /veterinarians/:id - Excluir um veterinario</br>
 
 ### Animals
-[X] POST /animals</br> - Criar um animal</br>
-[] GET /animals</br>
-[] GET /animals/:ownerId/animals</br>
-[] GET /animals/:id</br>
-[] PUT /animals/:id</br>
-[] DELETE /animals/:id</br>
+[X] POST /animals - Criar um animal</br>
+[X] GET /animals - Obter todos os animais</br>
+[] GET /animals/:id/appointments - Obter todas as consultas de um animal</br>
+[X] POST /animals/:id/upload - Atualizar a imagem de um animal</br>
+[] PUT /animals/:id - Atualizar um animal</br>
+[] DELETE /animals/:id - Excluir um animal</br>
 
-[X] POST /appointments</br> - Solicitar uma consulta</br>
-[] GET /appointments</br>
-[] GET /appointments/:id</br>
-[] PUT /appointments/:id/accept</br>
-[] PUT /appointments/:id/suggest-date</br>
-[] PUT /appointments/:id/respond-suggestion</br>
-[] PUT /appointments/:id/complete</br>
-[] GET /appointments/:ownerId/appointments</br>
-[] GET /appointments/:veterinarianId/appointments</br>
-[] GET /appointments/:animalId/appointments</br>
+### Consultas
+[X] POST /appointments - Solicitar uma consulta</br>
+[] GET /appointments/requested - Obter todas as consultas com status de Solicitado do veterinario autenticado</br>
+[X] PATCH /appointments/:id/accept - Aceitar uma consulta</br>
+[X] PATCH /appointments/:id/deny - Recusar uma consulta</br>
+[X] PATCH /appointments/:id/finish - Finalizar uma consulta</br>
+[X] PATCH /appointments/:id/update - Atualizar uma consulta</br>
 
 ## Fluxo
 1. Tutor solicita uma consulta, enviando três horários preferenciais

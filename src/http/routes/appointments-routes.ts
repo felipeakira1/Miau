@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { AppointmentsController } from "./appointments-controller";
+import { AppointmentsController } from "../controllers/appointments-controller";
 import { verifyJWT } from "../hooks/verify-jwt";
 import { verifyUserRole } from "../hooks/verify-user-role";
 
