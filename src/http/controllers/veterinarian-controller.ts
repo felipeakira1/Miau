@@ -7,6 +7,8 @@ import { makeFetchAllVeterinariansUseCase } from "../../use-cases/factories/make
 import { generateImageUrl } from "../../utils/generateImageUrl"
 import { uploadImage } from "../../utils/upload-image"
 import { makeUpdateVeterinariansUseCase } from "../../use-cases/factories/make-update-veterinarian-use-case"
+import { ResourceNotFound } from "../../use-cases/errors/resource-not-found"
+import { UserRole } from "@prisma/client"
 
 
 export class VeterinarianController {
@@ -58,6 +60,77 @@ export class VeterinarianController {
             return reply.status(200).send({veterinarians})
         } catch(err) {
             return reply.status(500).send(err)
+        }
+    }
+
+    async updateSelf(request: FastifyRequest, reply: FastifyReply) {
+        const userId = request.user.sub;
+                
+        const updateSelfBodySchema = z.object({
+            name: z.string().optional(),
+            email: z.string().optional(),
+            phone: z.string().optional(),
+            password: z.string().optional(),
+            address: z.string().optional(),
+            speciality: z.string().optional(),
+        })
+
+        try {
+            const { name, email, phone, password, address, speciality } = updateSelfBodySchema.parse(request.body)
+            const updateVeterinarianUseCase = makeUpdateVeterinariansUseCase()
+            await updateVeterinarianUseCase.execute({
+                id: userId,
+                name,
+                email,
+                phone,
+                password,
+                address,
+                speciality
+            })
+            return reply.status(204).send()
+        } catch (err) {
+            if(err instanceof ResourceNotFound) {
+                return reply.status(404).send({message: err.message})
+            }
+            return reply.status(500).send({err})
+        }
+    }
+
+    async updateByAdmin(request: FastifyRequest, reply: FastifyReply) {
+        const updateByAdminParamsSchema = z.object({
+            id: z.string()
+        })
+        const updateByAdminBodySchema = z.object({
+            name: z.string().optional(),
+            email: z.string().optional(),
+            phone: z.string().optional(),
+            password: z.string().optional(),
+            address: z.string().optional(),
+            role: z.string().optional(),
+            speciality: z.string().optional(),
+        })
+        try {
+            const id = Number(updateByAdminParamsSchema.parse(request.params).id)
+            const { name, email, phone, password, address, role: roleString, speciality } = updateByAdminBodySchema.parse(request.body)
+            const role = roleString ? roleString as UserRole : undefined
+            
+            const updateVeterinarianUseCase = makeUpdateVeterinariansUseCase()
+            await updateVeterinarianUseCase.execute({
+                id,
+                name,
+                email,
+                phone,
+                password,
+                address,
+                role,
+                speciality
+            })
+            return reply.status(204).send()
+        } catch (err) {
+            if(err instanceof ResourceNotFound) {
+                return reply.status(404).send({message: err.message})
+            }
+            return reply.status(500).send({err})
         }
     }
 

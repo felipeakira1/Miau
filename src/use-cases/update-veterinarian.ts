@@ -35,9 +35,11 @@ export class UpdateVeterinarianUseCase {
             phone,
             password,
             address,
+            role,
         })
         const veterinarian = await this.veterinariansRepository.update({
             userId: id,
+            speciality,
             imageUrl,
         })
 

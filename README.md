@@ -76,7 +76,8 @@
 [X] POST /veterinarians - Criar um veterinario</br>
 [X] GET /veterinarians - Obter todos os veterinarios</br>
 [] GET /veterinarians/:id/appointments - Obter todas as consultas de um tutor</br>
-[] PUT /veterinarians/:id - Atualizar dados de um veterinario</br>
+[X] PUT /veterinarians/me - Veterinario atualiza seus próprios dados</br>
+[X] PUT /veterinarians/:id - Admin atualiza os dados de um veterinario</br>
 [] DELETE /veterinarians/:id - Excluir um veterinario</br>
 
 ### Animals
