@@ -1,4 +1,4 @@
-import { Animal, Owner, UserRole } from "@prisma/client";
+import { Animal, Owner, User, UserRole } from "@prisma/client";
 import { AnimalsRepository } from "../repositories/animals-repository";
 import { OwnersRepository } from "../repositories/owners-repository";
 import { UsersRepository } from "../repositories/users-repository";
@@ -16,6 +16,7 @@ interface UpdateOwnerUseCaseRequest {
 }
 
 interface UpdateOwnerUseCaseResponse {
+    user: User,
     owner : Owner
 }
 
@@ -33,7 +34,13 @@ export class UpdateOwnerUseCase {
             phone,
             password,
             address,
+            role,
         })
+
+        if (!user) {
+            throw new ResourceNotFound()
+        }
+
         const owner = await this.ownersRepository.update({
             userId: id,
             imageUrl,
@@ -43,6 +50,6 @@ export class UpdateOwnerUseCase {
             throw new ResourceNotFound()
         }
 
-        return { owner }
+        return { user, owner }
     }
 }

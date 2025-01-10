@@ -68,7 +68,8 @@
 [X] GET /owners - Obter todos os tutores</br>
 [X] GET /owners/:id/animals - Obter todos os animais de um tutor</br>
 [X] GET /owners/:id/appointments - Obter todas as consultas de um tutor</br>
-[] PUT /owners/:id - Atualizar um tutor</br>
+[X] PUT /owners/me - Tutor atualiza seus próprios dados</br>
+[X] PUT /owners/:id - Admin atualiza os dados de um tutor</br>
 [] DELETE /owner/:id</br>
 
 ### Veterinarians

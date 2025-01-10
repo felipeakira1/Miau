@@ -8,6 +8,8 @@ import { makeFetchAnimalsByOwnerUseCase } from "../../use-cases/factories/make-f
 import { MakeFetchAppointmentsByOwnerUseCase } from "../../use-cases/factories/make-fetch-appointments-by-owner-use-case"
 import { uploadImage } from "../../utils/upload-image"
 import { makeUpdateOwnerUseCase } from "../../use-cases/factories/make-update-owner-use-case"
+import { ResourceNotFound } from "../../use-cases/errors/resource-not-found"
+import { UserRole } from "@prisma/client"
 
 export class OwnerController {
     async register(request : FastifyRequest, reply : FastifyReply) {
@@ -80,6 +82,73 @@ export class OwnerController {
             const { appointments } = await acceptAppointment.execute({ownerId: id})
             return reply.status(200).send({appointments})
         } catch(err) {
+            return reply.status(500).send({err})
+        }
+    }
+
+    async updateSelf(request : FastifyRequest, reply: FastifyReply) {
+        const userId = request.user.sub;
+        
+        const updateSelfBodySchema = z.object({
+            name: z.string().optional(),
+            email: z.string().optional(),
+            phone: z.string().optional(),
+            password: z.string().optional(),
+            address: z.string().optional(),
+        })
+
+        try {
+            const { name, email, phone, password, address } = updateSelfBodySchema.parse(request.body)
+            const updateOwnerUseCase = makeUpdateOwnerUseCase()
+            await updateOwnerUseCase.execute({
+                id: userId,
+                name,
+                email,
+                phone,
+                password,
+                address
+            })
+            return reply.status(204).send()
+        } catch (err) {
+            if(err instanceof ResourceNotFound) {
+                return reply.status(404).send({message: err.message})
+            }
+            return reply.status(500).send({err})
+        }
+    } 
+
+    async updateByAdmin(request: FastifyRequest, reply: FastifyReply) {
+        const updateByAdminParamsSchema = z.object({
+            id: z.string()
+        })
+        const updateByAdminBodySchema = z.object({
+            name: z.string().optional(),
+            email: z.string().optional(),
+            phone: z.string().optional(),
+            password: z.string().optional(),
+            address: z.string().optional(),
+            role: z.string().optional(),
+        })
+        try {
+            const id = Number(updateByAdminParamsSchema.parse(request.params).id)
+            const { name, email, phone, password, address, role: roleString } = updateByAdminBodySchema.parse(request.body)
+            const role = roleString ? roleString as UserRole : undefined
+            
+            const updateOwnerUseCase = makeUpdateOwnerUseCase()
+            await updateOwnerUseCase.execute({
+                id,
+                name,
+                email,
+                phone,
+                password,
+                address,
+                role,
+            })
+            return reply.status(204).send()
+        } catch (err) {
+            if(err instanceof ResourceNotFound) {
+                return reply.status(404).send({message: err.message})
+            }
             return reply.status(500).send({err})
         }
     }
