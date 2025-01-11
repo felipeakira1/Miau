@@ -83,14 +83,14 @@
 ### Animals
 [X] POST /animals - Criar um animal</br>
 [X] GET /animals - Obter todos os animais</br>
-[] GET /animals/:id/appointments - Obter todas as consultas de um animal</br>
+[X] GET /animals/:id/appointments - Obter todas as consultas de um animal</br>
 [X] POST /animals/:id/upload - Atualizar a imagem de um animal</br>
 [] PUT /animals/:id - Atualizar um animal</br>
 [] DELETE /animals/:id - Excluir um animal</br>
 
 ### Consultas
 [X] POST /appointments - Solicitar uma consulta</br>
-[] GET /appointments/requested - Obter todas as consultas com status de Solicitado do veterinario autenticado</br>
+[X] GET /appointments/requested - Obter todas as consultas com status de Solicitado do veterinario autenticado</br>
 [X] PATCH /appointments/:id/accept - Aceitar uma consulta</br>
 [X] PATCH /appointments/:id/deny - Recusar uma consulta</br>
 [X] PATCH /appointments/:id/finish - Finalizar uma consulta</br>

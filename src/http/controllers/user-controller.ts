@@ -5,6 +5,7 @@ import { makeFetchAllUsersUseCase } from "../../use-cases/factories/make-fetch-a
 import { makeFetchOwnerUseCase } from "../../use-cases/factories/make-fetch-owner-use-case"
 import { makeFetchVeterinarianUseCase } from "../../use-cases/factories/make-fetch-veterinarian-use-case"
 import { makeFetchUserUseCase } from "../../use-cases/factories/make-fetch-user-use-case"
+import { InvalidCredentials } from "../../use-cases/errors/invalid-credentials"
 
 export class UserController {
     async authenticate (request : FastifyRequest, reply : FastifyReply) {
@@ -51,8 +52,10 @@ export class UserController {
                 .status(200)
                 .send({token})
         } catch(err) {
-            console.log(err)
-            return reply.send(err)
+            if(err instanceof InvalidCredentials) {
+                return reply.status(401).send({message: err.message})
+            }
+            return reply.status(500).send(err)
         }
     } 
 
@@ -67,22 +70,25 @@ export class UserController {
     }
      
     async profile(request: FastifyRequest, reply: FastifyReply) {
-        const role = request.user.role
-        console.log(role, request.user.sub)
-        if(role === 'OWNER') {
-            const getOwner = makeFetchOwnerUseCase()
-            const { user, owner } = await getOwner.execute(Number(request.user.sub))
-            return reply.status(200).send({user, owner})
-        } else if(role === 'VETERINARIAN') {
-            const getVeterinarian = makeFetchVeterinarianUseCase()
-            const { user, veterinarian } = await getVeterinarian.execute(Number(request.user.sub)) 
-            return reply.status(200).send({user, veterinarian})
-        } else if (role === 'ADMIN') {
-            const getUser = makeFetchUserUseCase()
-            const { user } = await getUser.execute(Number(request.user.sub))
-            return reply.status(200).send({user})
-        } else {
-            return reply.status(400).send({message: 'Invalid role'})
+        try {
+            const role = request.user.role
+            if(role === 'OWNER') {
+                const getOwner = makeFetchOwnerUseCase()
+                const { user, owner } = await getOwner.execute(Number(request.user.sub))
+                return reply.status(200).send({user, owner})
+            } else if(role === 'VETERINARIAN') {
+                const getVeterinarian = makeFetchVeterinarianUseCase()
+                const { user, veterinarian } = await getVeterinarian.execute(Number(request.user.sub)) 
+                return reply.status(200).send({ user, veterinarian })
+            } else if (role === 'ADMIN') {
+                const getUser = makeFetchUserUseCase()
+                const { user } = await getUser.execute(Number(request.user.sub))
+                return reply.status(200).send({user})
+            } else {
+                return reply.status(400).send({message: 'Invalid role'})
+            }
+        } catch(err) {
+            return reply.status(500).send({message: 'Internal server error'})
         }
     }
 
@@ -108,17 +114,16 @@ export class UserController {
                 }
             )
 
-            return reply
-                .setCookie('refreshToken', refreshToken, {
+            reply.setCookie('refreshToken', refreshToken, {
                     path: '/',
                     secure: true,
                     sameSite: true,
                     httpOnly: true
                 })
-                .status(200)
-                .send({token})
+                
+            return reply.status(200).send({token})
         } catch(err) {
-
+            return reply.status(401).send({message: 'Invalid or expired refresh token. Please log in again'})
         }
     }
 }
