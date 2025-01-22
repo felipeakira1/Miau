@@ -39,27 +39,26 @@ export class VeterinarianController {
             })
             return reply.status(201).send({user, veterinarian})
         } catch(err) {
-            if(err instanceof EmailAlreadyExists) {
+            if(err instanceof EmailAlreadyExists || err instanceof CRMVAlreadyExists) {
                 return reply.status(409).send({message: err.message})
-            } else if (err instanceof CRMVAlreadyExists) {
-                return reply.status(409).send({message: err.message})
-            } 
-            throw err
+            }
+            return reply.status(500).send({message: 'Internal server error'})
         }
     }
 
     async fetchAllVeterinarians (request: FastifyRequest, reply: FastifyReply) {
         try {
             const fetchAll = makeFetchAllVeterinariansUseCase()
-            const veterinarians = await fetchAll.execute()
-            for (let veterinarian of veterinarians) {
+            let veterinarians = await fetchAll.execute()
+            veterinarians = veterinarians.map((veterinarian) => {
                 if(veterinarian.imageUrl) {
                     veterinarian.imageUrl = generateImageUrl(veterinarian.imageUrl)
                 }
-            }
+                return veterinarian
+            })
             return reply.status(200).send({veterinarians})
         } catch(err) {
-            return reply.status(500).send(err)
+            return reply.status(500).send({message: 'Internal server error'})
         }
     }
 
@@ -92,7 +91,7 @@ export class VeterinarianController {
             if(err instanceof ResourceNotFound) {
                 return reply.status(404).send({message: err.message})
             }
-            return reply.status(500).send({err})
+            return reply.status(500).send({message: 'Failed to update veterinarian information'})
         }
     }
 
@@ -130,7 +129,7 @@ export class VeterinarianController {
             if(err instanceof ResourceNotFound) {
                 return reply.status(404).send({message: err.message})
             }
-            return reply.status(500).send({err})
+            return reply.status(500).send({message: 'Failed to update veterinarian information' })
         }
     }
 
@@ -146,6 +145,16 @@ export class VeterinarianController {
             if(!data) {
                 return reply.status(400).send({error: "No file sent"})
             }
+            if(!['image/png', 'image/jpeg'].includes(data.mimetype)) {
+                return reply.status(400).send({error: 'Invalid fyle type'})
+            }
+
+            const buffer = await data.toBuffer(); // Convert to Buffer
+            const fileSizeInBytes = Buffer.byteLength(buffer); // Get size in bytes
+            if (fileSizeInBytes > 5 * 1024 * 1024) { // 5MB limit
+                return reply.status(400).send({ error: 'File size exceeds 5MB limit' });
+            }
+            
             const relativePath = await uploadImage(data)
             const updateVeterinarianUseCase = makeUpdateVeterinariansUseCase()
             const updatedVeterinarian = await updateVeterinarianUseCase.execute({
