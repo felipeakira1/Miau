@@ -10,6 +10,7 @@ import { ownerRoutes } from "./http/routes/owner-routes"
 import { animalRoutes } from "./http/routes/animal-routes"
 import path from "path"
 import fs from "fs"
+import cors from "@fastify/cors";
 import fastifyStatic from "@fastify/static"
 import { appointmentsRoutes } from "./http/routes/appointments-routes"
 import { veterinarianRoutes } from "./http/routes/veterinarian-routes"
@@ -31,6 +32,8 @@ app.register(swagger, {
         produces: ['application/json']
     },
 })
+
+app.register(cors)
 
 app.register(swaggerUI, {
     routePrefix: '/docs',
