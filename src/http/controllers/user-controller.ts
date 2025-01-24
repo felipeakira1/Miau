@@ -6,6 +6,7 @@ import { makeFetchOwnerUseCase } from "../../use-cases/factories/make-fetch-owne
 import { makeFetchVeterinarianUseCase } from "../../use-cases/factories/make-fetch-veterinarian-use-case"
 import { makeFetchUserUseCase } from "../../use-cases/factories/make-fetch-user-use-case"
 import { InvalidCredentials } from "../../use-cases/errors/invalid-credentials"
+import { generateImageUrl } from "../../utils/generateImageUrl"
 
 export class UserController {
     async authenticate (request : FastifyRequest, reply : FastifyReply) {
@@ -79,6 +80,9 @@ export class UserController {
             } else if(role === 'VETERINARIAN') {
                 const getVeterinarian = makeFetchVeterinarianUseCase()
                 const { user, veterinarian } = await getVeterinarian.execute(Number(request.user.sub)) 
+                if(veterinarian.imageUrl) {
+                    veterinarian.imageUrl = generateImageUrl(veterinarian.imageUrl)
+                }
                 return reply.status(200).send({ user, veterinarian })
             } else if (role === 'ADMIN') {
                 const getUser = makeFetchUserUseCase()

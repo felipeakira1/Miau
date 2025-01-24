@@ -19,21 +19,6 @@ export const LoginContainer = styled.div`
         width: 100%;
     }
 
-    input {
-        padding: 10px 16px;
-        border: 1px solid transparent;
-        border-radius: 5px;
-
-        &:hover {
-            border: 1px solid ${props => props.theme['green-500']}
-        }
-
-        &:focus {
-            outline: none;
-            border: 1px solid ${props => props.theme['green-500']}
-        }
-    }
-
     a {
         text-decoration: none;
         color: ${props => props.theme['gray-500']}

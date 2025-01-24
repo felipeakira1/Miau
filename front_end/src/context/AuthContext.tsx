@@ -6,6 +6,7 @@ interface AuthContextType {
         sub: number,
         role: string,
     }
+    isAuthenticated: boolean,
     login: ({jwt, sub, role} : SaveUserData) => void;
 };
 
@@ -26,6 +27,8 @@ export function AuthContextProvider({children} : AuthContextProviderProps) {
     const [userSub, setUserSub] = useState(0);
     const [userRole, setUserRole] = useState('');
 
+    const isAuthenticated = !!jwt;
+
     function login({jwt, sub, role} : SaveUserData) {
         setJwt(jwt)
         setUserSub(sub)
@@ -40,6 +43,7 @@ export function AuthContextProvider({children} : AuthContextProviderProps) {
                 sub: userSub,
                 role: userRole
             },
+            isAuthenticated,
             login
         }}>
         {children}

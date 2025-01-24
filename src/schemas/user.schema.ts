@@ -58,9 +58,43 @@ export const profileSchema = {
             description: 'Successful profile retrieval',
             type: 'object',
             properties: {
-                user: { type: 'object', description: 'User details' },
-                owner: { type: 'object', nullable: true, description: 'Owner-specific details' },
-                veterinarian: { type: 'object', nullable: true, description: 'Veterinarian-specific details' },
+                user: {
+                    type: 'object',
+                    description: 'User details',
+                    properties: {
+                      id: { type: 'number' },
+                      name: { type: 'string' },
+                      email: { type: 'string' },
+                      phone: { type: ['string', 'null'] },
+                      address: { type: ['string', 'null'] },
+                      role: { type: 'string' },
+                      createdAt: { type: 'string', format: 'date-time' },
+                      updatedAt: { type: 'string', format: 'date-time' },
+                    },
+                    required: ['id', 'name', 'email', 'role'],
+                  },
+                  owner: {
+                    type: ['object', 'null'],
+                    description: 'Owner-specific details',
+                    properties: {
+                      id: { type: 'number' },
+                      userId: { type: 'number' },
+                      additionalInfo: { type: 'string', nullable: true },
+                    },
+                    required: ['id', 'userId'],
+                  },
+                  veterinarian: {
+                    type: ['object', 'null'],
+                    description: 'Veterinarian-specific details',
+                    properties: {
+                      id: { type: 'number' },
+                      crmv: { type: 'string' },
+                      speciality: { type: 'string' },
+                      imageUrl: { type: 'string' },
+                      userId: { type: 'number' },
+                    },
+                    required: ['id', 'crmv', 'speciality', 'userId'],
+                  },
             },
         },
         400: {
