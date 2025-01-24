@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/Input";
-import { ProfileContainer, ProfileImage, Row, UpdatePassword } from "./styles";
+import { ProfileContainer, ProfileImage, Row, UpdatePasswordRow } from "./styles";
 import { Button } from "../../components/Button";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { UpdatePassword } from "./UpdatePassword";
 
 interface FormProfileData {
     name: string;
@@ -18,6 +19,7 @@ export function Profile() {
     const { jwt, user } = useContext(AuthContext)
     const [ originalData, setOriginalData ] = useState<FormProfileData | null>(null)
     const [ dataChanged, setDataChanged ] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [ loading, setLoading ] = useState(false)
     const [ image, setImage ] = useState("")
     const { register, handleSubmit, reset, watch } = useForm<FormProfileData>({
@@ -101,9 +103,14 @@ export function Profile() {
         loadUserData()
     }, [])
 
+    function handleCloseModal() {
+        setIsModalOpen(false)
+    }
+    
     return (
         <ProfileContainer>
             <h1>Profile</h1>
+            <UpdatePassword isOpen={isModalOpen} onClose={handleCloseModal}/>
             <form onSubmit={handleSubmit(handleProfileUpdate)} action="">
                 <ProfileImage>
                     <img src={image} alt="" />
@@ -112,10 +119,10 @@ export function Profile() {
                 <Row>
                     <Input label="Nome" name="name" register={register} required/>
                     <Input label="E-mail" name="email" register={register} required/>
-                    <UpdatePassword>
+                    <UpdatePasswordRow>
                         <label htmlFor="updatePassword">Alterar senha</label>
-                        <Button variant="gray" id="updatePassword">Alterar senha</Button>
-                    </UpdatePassword>
+                        <Button variant="gray" id="updatePassword" onClick={() => { setIsModalOpen(true)}} type="button">Alterar senha</Button>
+                    </UpdatePasswordRow>
                 </Row>
                 <Row>
                     <Input label="Telefone" name="phone" register={register}/>
