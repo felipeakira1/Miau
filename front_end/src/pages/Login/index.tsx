@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { JwtPayload } from "../../@types/jwt";
+import { Input } from "../../components/Input";
 
 
 export interface LoginData {
@@ -30,8 +31,8 @@ export function Login() {
     async function handleLogin(data : LoginData) {
         setLoading(true)
         setError('')
-
         const { email, password } = data
+        console.log(email, password)
         const response = await fetch("http://localhost:3333/authenticate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -60,23 +61,8 @@ export function Login() {
             <h1>Login</h1>
             <form onSubmit={handleSubmit(handleLogin)} action="">
                 {error ? <p>{error}</p> : <></>}
-                <label htmlFor="email">E-mail</label>
-                <input 
-                    type="text" 
-                    id="email"
-                    required
-                    placeholder="E-mail"
-                    {...register("email")}
-                />
-                
-                <label htmlFor="password">Senha</label>
-                <input 
-                    type="password" 
-                    id="password"
-                    placeholder="Senha"
-                    required
-                    {...register("password")}
-                />
+                <Input label="E-mail" name="email" register={register} placeholder="E-mail" required/>
+                <Input label="Senha" name="password" register={register} type="password" placeholder="Senha"  required/>
                 <a href="">Esqueceu a senha?</a>
                 {loading ? <p>Carregando...</p> : <></>}
                 <button type="submit">Entrar</button>

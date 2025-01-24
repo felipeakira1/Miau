@@ -8,7 +8,7 @@ export const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: ${props => props.theme['white-background']};
+    background-color: white;
     padding: 60px;
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
 
