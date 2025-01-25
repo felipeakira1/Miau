@@ -14,7 +14,7 @@ const buttonSizes = {
 }
 
 export const ButtonContainer = styled.button<ButtonContainerProps>`
-    background-color: ${props => props.variant};
+    background-color: ${props => props.theme['green-500']};
     padding: 10px 20px;
     min-width: 1;
     height: 46px;
@@ -30,15 +30,12 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     color: white;
     width: ${props => buttonSizes[props.size]};
 
-    &:hover {
-        background-color: ${props => props.theme['green-500']};
+    &:not(:disabled):hover {
+        background-color: ${props => props.theme['green-700']};
     }
 
     &:disabled {
         opacity: 0.7;
-        cursor: default;
-        &:hover {
-            background-color: green;
-        }
+        cursor: not-allowed;
     }
 `

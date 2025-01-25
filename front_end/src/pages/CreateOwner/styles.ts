@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const ProfileContainer = styled.div`
+export const CreateOwnerContainer = styled.div`
     height: calc(100vh - 10rem);
     margin: 0 5rem;
-    width: 74rem;
+    width: 34rem;
     border-radius: 14px;
     background-color: white;
     padding: 24px 48px;
-    border: 2px solid ${props => props.theme['gray-300']};
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
 
     display: flex;
     flex-direction: column;

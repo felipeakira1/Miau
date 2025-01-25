@@ -1,23 +1,40 @@
 import { NavLink } from "react-router-dom";
-import { NavLinkContent, SidebarContainer } from "./styles";
-import { Person, Door } from "phosphor-react";
+import { BackButton, NavLinkContent, SidebarContainer, SidebarHeader } from "./styles";
+import { Person, UserCircle, Door, CaretDoubleRight, CaretDoubleLeft } from "phosphor-react";
 
-export function Sidebar() {
+interface SidebarProps {
+    toggleSidebar: () => void;
+    isExpanded: boolean;
+}
+
+export function Sidebar({ toggleSidebar, isExpanded} : SidebarProps) {
     return (
-        <SidebarContainer>
-            <h1>Miau</h1>
+        <SidebarContainer isExpanded={isExpanded}>
+            <SidebarHeader isExpanded={isExpanded}>
+                {isExpanded && <h1>Miau</h1>}
+
+                <BackButton onClick={toggleSidebar}>
+                    {isExpanded ? <CaretDoubleLeft size={34}/> : <CaretDoubleRight size={34}/>}
+                </BackButton>
+            </SidebarHeader>
             <nav>
                 <NavLink to="/profile" title="Perfil">
                     <NavLinkContent>
-                        <Person size={24}/>
-                        Perfil
+                        <UserCircle size={30}/>
+                        {isExpanded && "Perfil"}
+                    </NavLinkContent>
+                </NavLink>
+                <NavLink to="/owners" title="Tutores">
+                    <NavLinkContent>
+                        <Person size={30}/>
+                        {isExpanded && "Tutores"}
                     </NavLinkContent>
                 </NavLink>
             </nav>
             <NavLink to="/logout" title="Logout">
                 <NavLinkContent>
                     <Door size={24}/>
-                    Sair
+                    {isExpanded && "Sair"}
                 </NavLinkContent>
             </NavLink>
         </SidebarContainer>

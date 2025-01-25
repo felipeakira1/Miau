@@ -8,9 +8,9 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        background-color: ${props => props.theme['green-300']};
         height: 100vh;
         -webkit-font-smoothing: antialiased;
+        background-color: ${props => props.theme['white']};
     }
     
 	body, input, textarea, button {

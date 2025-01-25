@@ -17,7 +17,7 @@ export const InputContainer = styled.div`
         border-radius: 5px;
         background-color: #F0F0F0;
         &:hover {
-        border: 1px solid ${props => props.theme['green-500']}
+            border: 1px solid ${props => props.theme['green-500']}
         }
 
         &:focus {
