@@ -22,6 +22,13 @@ export const FetchOwnersContainer = styled.div`
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+
+  .flex {
+    display: flex;
+    gap: 8px;
+  }
 `;
 
 export const Table = styled.table`
@@ -36,12 +43,19 @@ export const Table = styled.table`
   }
 
   th {
-    background-color: #4CAF50;
-    color: white;
+    background-color: ${props => props.theme['gray-300']};
+    color: ${props => props.theme['gray-700']};
   }
 
   tr:hover {
     background-color: #f1f1f1;
+    cursor: pointer;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
   }
 `;
 

@@ -15,4 +15,12 @@ export const defaultTheme = {
     'green-300': '#DFF5E4',
     'green-500': '#34C759',
     'green-700': '#228B37',    
+    
+    'red-300': '#FDE8E8',    // Suave
+    'red-500': '#FF3B30',    // Cor principal
+    'red-700': '#C2261A',    // Escuro
+
+    'yellow-300': '#FFF9D9', // Suave
+    'yellow-500': '#FFD60A', // Cor principal
+    'yellow-700': '#CCAC07'  // Escuro
 }

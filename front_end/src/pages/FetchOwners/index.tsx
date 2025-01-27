@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { ErrorMessage, FetchOwnersContainer, NewOwnerButton, Table } from "./styles";
-import { FilePlus } from "phosphor-react"
+import { ErrorMessage, FetchOwnersContainer, Table } from "./styles";
+import { Button } from "../../components/Button";
 
 export function FetchOwners () {
     const { jwt } = useContext(AuthContext);
     interface Owner {
         id: number;
+        imageUrl: string;
         user: {
             id: number;
             name: string;
@@ -16,7 +17,6 @@ export function FetchOwners () {
     }
 
     const [owners, setOwners] = useState<Owner[]>([]);
-    const [error, setError] = useState(null);
 
     useEffect(()=> {
         async function fetchOwners() {
@@ -46,30 +46,37 @@ export function FetchOwners () {
 
     return (
         <>
-        <NewOwnerButton>
-            <FilePlus size={24}/>
-            NOVO TUTOR
-        </NewOwnerButton>
         <FetchOwnersContainer>
-            <h1>Lista de Owners</h1>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <h1>Tutores</h1>
+            <div>
+                <Button variant="green" size="auto">Registrar tutor</Button>
+            </div>
             {owners.length > 0 ? (
                 <Table>
                 <thead>
                     <tr>
                     <th>ID</th>
+                    <th>Tutor</th>
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Telefone</th>
+                    <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {owners.map((owner) => (
                     <tr key={owner.id}>
                         <td>{owner.user.id}</td>
+                        <td><img src={owner.imageUrl} alt="" /></td>
                         <td>{owner.user.name}</td>
                         <td>{owner.user.email}</td>
                         <td>{owner.user.phone}</td>
+                        <td >
+                            <div className="flex">
+                                    <Button size="auto" variant="red">Excluir</Button>
+                                    <Button size="auto" variant="yellow">Alterar</Button>
+                            </div>
+                        </td>
                     </tr>
                     ))}
                 </tbody>
