@@ -9,11 +9,12 @@ interface InputProps {
     [key: string]: any;
 }
 
-export function Input({label, name, register, ...rest}: InputProps) {
+export function Input({label, name, register, error, ...rest}: InputProps) {
     return (
         <InputContainer>
             {label && <label htmlFor={name}>{label}</label>}
-            <input id={name} {...(register ? register(name) : {})} {...rest}/>
+            <input id={name} className={error && "errorBorder"}{...(register ? register(name) : {})} {...rest}/>
+            {error && <p className="errorString">{error}</p>}
         </InputContainer>
     )
 }

@@ -16,13 +16,21 @@ export const InputContainer = styled.div`
         border: 1px solid transparent;
         border-radius: 5px;
         background-color: #F0F0F0;
-        &:hover {
+        outline: none;
+        &:not(.errorBorder):hover {
             border: 1px solid ${props => props.theme['green-500']}
         }
 
-        &:focus {
-            outline: none;
+        &:not(.errorBorder):focus {
             border: 1px solid ${props => props.theme['green-500']}
         }
+    }
+
+    .errorBorder {
+        border: 1px solid red;
+    }
+
+    .errorString {
+        color: red;
     }
 `

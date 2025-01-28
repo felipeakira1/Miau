@@ -1,17 +1,22 @@
 import styled from "styled-components";
 
 export const CreateOwnerContainer = styled.div`
-    height: calc(100vh - 10rem);
-    margin: 0 5rem;
-    width: 34rem;
-    border-radius: 14px;
-    background-color: white;
-    padding: 24px 48px;
-    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
-
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    flex-direction: column;
-    gap: 24px;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+
+    .closeButton {
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+    }
 
     form {
         display: flex;
@@ -23,6 +28,24 @@ export const CreateOwnerContainer = styled.div`
         display: flex;
         justify-content: end;
     }
+
+    .flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        &:last-child {
+            cursor: pointer;
+        }
+    }
+`
+
+export const CreateOwnerContent = styled.div`
+    background-color: white;
+    width: 34rem;
+    padding: 24px 48px;
+    border-radius: 14px;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
 `
 
 export const ProfileImage = styled.div`

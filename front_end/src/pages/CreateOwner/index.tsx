@@ -1,12 +1,14 @@
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "../../components/Input";
-import { CreateOwnerContainer } from "./styles";
+import { CreateOwnerContainer, CreateOwnerContent } from "./styles";
 import { Button } from "../../components/Button";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import InputMask from "react-input-mask";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useNavigate } from "react-router-dom";
+import { X } from "phosphor-react"
 
 interface FormRegisterOwnerData {
     name: string;
@@ -18,14 +20,14 @@ interface FormRegisterOwnerData {
 
 const schema = z.object({
     name: z.string().nonempty("Nome obrigatório"),
-    email: z.string().email("Formato de email inválido").nonempty("Email obrigatório"),
+    email: z.string().email("Formato inválido").nonempty("Email obrigatório"),
     cpf: z
       .string()
-      .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "CPF deve estar no formato 000.000.000-00")
+      .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "Formato inválido")
       .nonempty("CPF obrigatório"),
     phone: z
       .string()
-      .regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Telefone deve estar no formato (00) 00000-0000")
+      .regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Formato inválido")
       .optional(),
     address: z.string().optional(),
   });
@@ -33,11 +35,19 @@ const schema = z.object({
   
 type FormData = z.infer<typeof schema>;
 
-export function CreateOwner() {
+interface CreateOwnerProps {
+    isOpen: boolean,
+    onClose: () => void,
+    onComplete: () => void, 
+}
+export function CreateOwner({ isOpen, onClose, onComplete} : CreateOwnerProps) {
+    if(!isOpen) return;
+
     const { jwt } = useContext(AuthContext)
     const [ dataChanged, setDataChanged ] = useState(false)
     const [ loading, setLoading ] = useState(false)
 
+    const navigate = useNavigate();
     const { control, register, handleSubmit, reset, watch, formState: { errors } } = useForm<FormData>({
         defaultValues: {
             name: "",
@@ -78,19 +88,24 @@ export function CreateOwner() {
             console.error("Erro ao registrar tutor");
             return;
         }
-        console.log("sucesso!")
-        reset()
-        setLoading(false)
+        reset();
+        setLoading(false);
+        onComplete();
+        onClose();
     }
 
+    if (!isOpen) return null;
+    
     return (
         <CreateOwnerContainer>
-            {errors.email && <p>{errors.email.message}</p>}
-            {errors.cpf && <p>{errors.cpf.message}</p>}
-            <h1>Registrar tutor</h1>
+            <CreateOwnerContent>
+            <div className="flex">
+                <h1>Registrar tutor</h1>
+                <X onClick={onClose} size={24 } style={{cursor:"pointer"}}></X>
+            </div>
             <form onSubmit={handleSubmit(handleProfileUpdate)} action="">
-                    <Input label="Nome" name="name" register={register} required/>
-                    <Input label="E-mail" name="email" register={register} required/>            
+                    <Input label="Nome*" name="name" register={register} required/>
+                    <Input label="E-mail*" name="email" register={register} error={errors.email?.message} required/>            
                     <Controller
                         name="cpf"
                         control={control}
@@ -98,7 +113,7 @@ export function CreateOwner() {
                         render={({field}) => (
                             <InputMask mask="999.999.999-99" {...field} onChange={(e) => field.onChange(e.target.value)}>
                                 {(inputProps) => (
-                                    <Input label="CPF" name="cpf" register={register} required {...inputProps}/>
+                                    <Input label="CPF*" name="cpf" register={register} error={errors.cpf?.message}  required {...inputProps}/>
                                 )}
                             </InputMask>        
                         )}
@@ -110,18 +125,19 @@ export function CreateOwner() {
                         render={({field}) => (
                             <InputMask mask="(99) 99999-9999" {...field} onChange={(e) => field.onChange(e.target.value)}>
                                 {(inputProps) => (
-                                    <Input label="Telefone" name="phone" required {...inputProps}/>
+                                    <Input label="Telefone (opcional)" name="phone" required error={errors.phone?.message} {...inputProps}/>
                                 )}
                             </InputMask>        
                         )}
                     />    
-                    <Input label="Endereço" name="address" register={register}/>
+                    <Input label="Endereço (opcional)" name="address" register={register}/>
                 <div className="submitRow">
                     <Button type="submit" size="small" disabled={!dataChanged || loading}  loading={loading}>
                         Salvar
                     </Button>
                 </div>
             </form>
+            </CreateOwnerContent>
         </CreateOwnerContainer>
     )
 }

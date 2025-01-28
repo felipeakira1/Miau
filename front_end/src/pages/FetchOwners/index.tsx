@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { ErrorMessage, FetchOwnersContainer, Table } from "./styles";
+import { FetchOwnersContainer, Table } from "./styles";
 import { Button } from "../../components/Button";
+import { toast, ToastContainer } from 'react-toastify';
+import { CreateOwner } from "../CreateOwner";
 
 export function FetchOwners () {
     const { jwt } = useContext(AuthContext);
@@ -17,6 +19,7 @@ export function FetchOwners () {
     }
 
     const [owners, setOwners] = useState<Owner[]>([]);
+    const [ isCreateOwnerFormOpen, setIsCreateOwnerFormOpen ] = useState(false);
 
     useEffect(()=> {
         async function fetchOwners() {
@@ -44,12 +47,34 @@ export function FetchOwners () {
           fetchOwners();
     }, [])
 
+    function handleDeleteOwner() {
+    }
+    
     return (
-        <>
         <FetchOwnersContainer>
+            <ToastContainer 
+                position="top-right" 
+                autoClose={5000} // Tempo de auto fechamento (5 segundos)
+                hideProgressBar={false} 
+                newestOnTop={false} 
+                closeOnClick 
+                rtl={false} 
+                pauseOnFocusLoss 
+                draggable 
+                pauseOnHover
+            />
+            <CreateOwner 
+                isOpen={isCreateOwnerFormOpen} 
+                onClose={() => setIsCreateOwnerFormOpen(false)} 
+                onComplete={() => 
+                    toast.success('Usuario foi adicionado com sucesso!', {
+                        autoClose: 3000,
+                        progress: undefined
+                    })}
+            />
             <h1>Tutores</h1>
             <div>
-                <Button variant="green" size="auto">Registrar tutor</Button>
+                <Button variant="green" size="auto" type="button" onClick={() => setIsCreateOwnerFormOpen(true)}>Registrar tutor</Button>
             </div>
             {owners.length > 0 ? (
                 <Table>
@@ -73,7 +98,7 @@ export function FetchOwners () {
                         <td>{owner.user.phone}</td>
                         <td >
                             <div className="flex">
-                                    <Button size="auto" variant="red">Excluir</Button>
+                                    <Button onClick={handleDeleteOwner} size="auto" variant="red">Excluir</Button>
                                     <Button size="auto" variant="yellow">Alterar</Button>
                             </div>
                         </td>
@@ -85,6 +110,5 @@ export function FetchOwners () {
                 <p>Nenhum owner encontrado.</p>
             )}
         </FetchOwnersContainer>
-        </>
     )
 }

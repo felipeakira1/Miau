@@ -18,16 +18,19 @@ export const NewOwnerButton = styled.button`
 `
 
 export const FetchOwnersContainer = styled.div`
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
   .flex {
     display: flex;
     gap: 8px;
+  }
+
+  a {
+    text-decoration: none;
   }
 `;
 

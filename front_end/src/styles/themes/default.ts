@@ -1,8 +1,7 @@
 export const defaultTheme = {
     'white': '#FFF',
+    'white-300': '#FAFAFA',
   
-    'gray-50': '#FAFAFA',   // Fundo muito claro
-    'gray-100': '#F5F5F5',  // Fundo secundário
     'gray-200': '#EDEDED',  // Bordas e separadores
     'gray-300': '#E0E0E0',  // Input e estados passivos
     'gray-400': '#B8B8B8',  // Placeholder ou texto desativado
