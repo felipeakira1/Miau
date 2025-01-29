@@ -149,8 +149,7 @@ export class VeterinarianController {
                 return reply.status(400).send({error: 'Invalid fyle type'})
             }
 
-            const buffer = await data.toBuffer(); // Convert to Buffer
-            const fileSizeInBytes = Buffer.byteLength(buffer); // Get size in bytes
+            const fileSizeInBytes = Number(data.file.bytesRead);
             if (fileSizeInBytes > 5 * 1024 * 1024) { // 5MB limit
                 return reply.status(400).send({ error: 'File size exceeds 5MB limit' });
             }
