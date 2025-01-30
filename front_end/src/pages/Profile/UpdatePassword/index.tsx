@@ -45,7 +45,7 @@ export function UpdatePassword({isOpen, onClose} : UpdatePasswordProps) {
         if(!response.ok) {
             console.error("error")
         }
-        console.log("sucesso!")
+        onClose()
     }
 
     return (
