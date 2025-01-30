@@ -5,6 +5,8 @@ import { Button } from "../../components/Button";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { UpdatePassword } from "./UpdatePassword";
+import { UpdateImage } from "./UpdateImage";
+import { useApi } from "../../services/api";
 
 interface FormProfileData {
     name: string;
@@ -16,9 +18,11 @@ interface FormProfileData {
 }
 
 export function Profile() {
+    const fetchWithAuth = useApi()
     const { jwt, user } = useContext(AuthContext)
     const [ originalData, setOriginalData ] = useState<FormProfileData | null>(null)
     const [ dataChanged, setDataChanged ] = useState(false)
+    const [ isImageModalOpen, setIsImageModalOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [ loading, setLoading ] = useState(false)
     const [ image, setImage ] = useState("")
@@ -52,7 +56,7 @@ export function Profile() {
             return;
         }
 
-        const response = await fetch("http://localhost:3333/veterinarians/me", {
+        const response = await fetchWithAuth("/veterinarians/me", {
             method: "PUT",
             headers: { 
                 "Content-Type": "application/json", 
@@ -71,7 +75,7 @@ export function Profile() {
     }
 
     async function loadUserData() {
-        const response = await fetch("http://localhost:3333/profile", {
+        const response = await fetchWithAuth("/profile", {
             method: "GET",
             headers: { 
                 "Content-Type": "application/json", 
@@ -110,11 +114,20 @@ export function Profile() {
     return (
         <ProfileContainer>
             <h1>Profile</h1>
+            <UpdateImage 
+                preview={image} 
+                isOpen={isImageModalOpen} 
+                onClose={(newImageUrl) => {
+                    setIsImageModalOpen(false);
+                    console.log(newImageUrl)
+                    if(newImageUrl) setImage(newImageUrl);
+                }}
+            />
             <UpdatePassword isOpen={isModalOpen} onClose={handleCloseModal}/>
             <form onSubmit={handleSubmit(handleProfileUpdate)} action="">
                 <ProfileImage>
                     <img src={image} alt="" />
-                    <button>Atualizar foto</button>
+                    <button  onClick={() => {setIsImageModalOpen(true)}}>Atualizar foto</button>
                 </ProfileImage>
                 <Row>
                     <Input label="Nome" name="name" register={register} required/>

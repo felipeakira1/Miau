@@ -1,6 +1,7 @@
 import { Veterinarian } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
 import { CreateVeterinarianInterface, updateVeterinarianInterface, VeterinariansRepository } from "../veterinarians-repository";
+import { generateImageUrl } from "../../utils/generateImageUrl";
 
 export class PrismaVeterinariansRepository implements VeterinariansRepository {
     async create(data: CreateVeterinarianInterface) {
@@ -53,6 +54,9 @@ export class PrismaVeterinariansRepository implements VeterinariansRepository {
             },
             data
         })
-        return veterinarian
+        return {
+            ...veterinarian,
+            imageUrl: generateImageUrl(veterinarian.imageUrl)
+        }
     }
 }

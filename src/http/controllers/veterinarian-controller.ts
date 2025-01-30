@@ -133,6 +133,32 @@ export class VeterinarianController {
         }
     }
 
+    async updateSelfImage(request : FastifyRequest, reply: FastifyReply) {
+        const userId = request.user.sub;
+
+        const data = await request.file();
+        if(!data) {
+            return reply.status(400).send({error: "No file sent"})
+        }
+        if(!['image/png', 'image/jpeg'].includes(data.mimetype)) {
+            return reply.status(400).send({error: 'Invalid fyle type'})
+        }
+
+        const fileSizeInBytes = Number(data.file.bytesRead);
+        if (fileSizeInBytes > 5 * 1024 * 1024) { // 5MB limit
+            return reply.status(400).send({ error: 'File size exceeds 5MB limit' });
+        }
+        
+        const relativePath = await uploadImage(data)
+        const updateVeterinarianUseCase = makeUpdateVeterinariansUseCase()
+        const {veterinarian} = await updateVeterinarianUseCase.execute({
+            id: userId,
+            imageUrl: relativePath
+        })
+
+        return reply.status(200).send({veterinarian})
+    }
+
     async updateVeterinarianImageUrl(request : FastifyRequest, reply: FastifyReply) {
         const updateOwnerParamsSchema = z.object({
             id: z.string()

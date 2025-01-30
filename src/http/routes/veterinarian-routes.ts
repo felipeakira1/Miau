@@ -9,7 +9,8 @@ export async function veterinarianRoutes(app : FastifyInstance) {
     const veterinarianController = new VeterinarianController()
     app.post('/veterinarians', { schema: createVeterinarianSchema }, veterinarianController.createVeterinarian);
     app.get('/veterinarians', { schema: fetchAllVeterinariansSchema }, veterinarianController.fetchAllVeterinarians);
-    app.put('/veterinarians/me', { onRequest: [verifyJWT], schema: updateSelfSchema }, veterinarianController.updateSelf);
+    app.put('/veterinarians/me', { onRequest: [verifyJWT] }, veterinarianController.updateSelf);
+    app.patch('/veterinarians/me/upload',  { onRequest: [verifyJWT] }, veterinarianController.updateSelfImage)
     app.put('/veterinarians/:id', { onRequest: [verifyJWT, verifyUserRole('ADMIN')], schema: updateByAdminSchema }, veterinarianController.updateByAdmin);
     app.patch('/veterinarians/:id/upload', veterinarianController.updateVeterinarianImageUrl);
 }

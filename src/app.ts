@@ -33,7 +33,12 @@ app.register(swagger, {
     },
 })
 
-app.register(cors)
+app.register(cors, {
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"], // ✅ Permitir cabeçalhos necessários
+    preflightContinue: false,
+})
 
 app.register(swaggerUI, {
     routePrefix: '/docs',

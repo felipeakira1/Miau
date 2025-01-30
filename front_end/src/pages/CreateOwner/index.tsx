@@ -85,7 +85,6 @@ export function CreateOwner({ isOpen, onClose, onComplete} : CreateOwnerProps) {
         })
         setLoading(false)
         if (!response.ok) {
-            console.error("Erro ao registrar tutor");
             return;
         }
         reset();
