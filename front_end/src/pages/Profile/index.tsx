@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { UpdatePassword } from "./UpdatePassword";
 import { UpdateImage } from "./UpdateImage";
-import { useApi } from "../../services/api";
+import { api } from "../../services/api";
 import { ToastContainer } from "react-toastify";
 import { useToast } from "../../hooks/useToast";
 
@@ -20,7 +20,6 @@ interface FormProfileData {
 }
 
 export function Profile() {
-    const fetchWithAuth = useApi();
     const { success, error } = useToast();
     const { user } = useContext(AuthContext)
 
@@ -43,9 +42,9 @@ export function Profile() {
     useEffect(() => {
         async function loadUserData() {
             try {
-                const response = await fetchWithAuth("/profile", { method: "GET" });
-                if(!response.ok) throw new Error("Erro ao carregar os dados do usuário");
-                const { user, veterinarian } = await response.json();
+                const response = await api.get("/profile");
+                console.log(response)
+                const { user, veterinarian } = response.data;
                 setImage(veterinarian.imageUrl)
                 const initialData : FormProfileData = {
                     name: user.name,
@@ -83,15 +82,8 @@ export function Profile() {
         }
 
         try {
-            const response = await fetchWithAuth("/veterinarians/me", {
-                method: "PUT",
-                headers: { 
-                    "Content-Type": "application/json", 
-                },
-                body: JSON.stringify(updatedData)
-            })
+            const response = await api.put("/veterinarians/me", JSON.stringify(updatedData))
             setLoading(false)
-            if(!response.ok) throw new Error("Erro ao carregar os dados do usuário");
             success("Dados atualizados com sucesso!");
             setOriginalData((prev) => ({ ...prev!, ...updatedData }));
             setDataChanged(false)

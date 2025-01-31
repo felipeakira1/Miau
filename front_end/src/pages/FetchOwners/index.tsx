@@ -5,19 +5,19 @@ import { Button } from "../../components/Button";
 import { toast, ToastContainer } from 'react-toastify';
 import { CreateOwner } from "../CreateOwner";
 
+interface Owner {
+    id: number;
+    imageUrl: string;
+    user: {
+        id: number;
+        name: string;
+        email: string;
+        phone: string;
+    }
+}
+
 export function FetchOwners () {
     const { jwt } = useContext(AuthContext);
-    interface Owner {
-        id: number;
-        imageUrl: string;
-        user: {
-            id: number;
-            name: string;
-            email: string;
-            phone: string;
-        }
-    }
-
     const [owners, setOwners] = useState<Owner[]>([]);
     const [ isCreateOwnerFormOpen, setIsCreateOwnerFormOpen ] = useState(false);
 

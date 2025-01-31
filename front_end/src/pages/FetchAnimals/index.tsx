@@ -16,6 +16,10 @@ interface Animal {
     ownerId: number;
 }
 
+const fetchAnimals = async () => {
+    
+}
+
 export function FetchAnimals () {
     const { jwt } = useContext(AuthContext);
 
@@ -69,9 +73,9 @@ export function FetchAnimals () {
                         progress: undefined
                     })}
             />
-            <h1>Tutores</h1>
+            <h1>Animais</h1>
             <div>
-                <Button variant="green" size="auto" type="button" onClick={() => setIsCreateOwnerFormOpen(true)}>Registrar tutor</Button>
+                <Button variant="green" size="auto" type="button" onClick={() => setIsCreateOwnerFormOpen(true)}>Registrar animal</Button>
             </div>
             {animals.length > 0 ? (
                 <Table>
