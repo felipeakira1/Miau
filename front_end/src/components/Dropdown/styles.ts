@@ -10,6 +10,7 @@ export const DropdownContainer = styled.div`
         font-weight: bold;
     }
     select {
+        font-size: 1rem;
         padding: 10px 16px;
         border: 1px solid transparent;
         border-radius: 5px;

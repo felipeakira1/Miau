@@ -4,6 +4,9 @@ import { Button } from "../../components/Button";
 import { toast, ToastContainer } from 'react-toastify';
 import { CreateOwner } from "../CreateOwner";
 import { FetchOwnersContainer, Table } from "../FetchOwners/styles";
+import { api } from "../../services/api";
+import { useQuery } from "@tanstack/react-query";
+import { CreateAnimal } from "./CreateAnimal";
 
 interface Animal {
     id: number;
@@ -13,43 +16,28 @@ interface Animal {
     birthDate: Date;
     weight: number;
     imageUrl?: string;
-    ownerId: number;
+    owner: {
+        userId: number;
+        user: {
+            name: string;
+        }
+        imageUrl: string;
+    }
 }
 
 const fetchAnimals = async () => {
-    
+    const response = await api.get('/animals');
+    return response.data.animals;
 }
 
 export function FetchAnimals () {
-    const { jwt } = useContext(AuthContext);
+    const { data : animals = [], isLoading, isError} = useQuery({
+        queryKey: ["animals"],
+        queryFn: fetchAnimals,
+        staleTime: 1000 * 60 * 5
+    })
 
-    const [animals, setAnimals] = useState<Animal[]>([]);
-    const [ isCreateOwnerFormOpen, setIsCreateOwnerFormOpen ] = useState(false);
-
-    useEffect(()=> {
-        async function fetchAnimals() {
-            try {
-              const response = await fetch("http://localhost:3333/animals", {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${jwt}`,
-                },
-              });
-      
-              if (!response.ok) {
-                throw new Error("Erro ao buscar os dados dos animais");
-              }
-      
-              const { animals } = await response.json();
-              setAnimals(animals);
-            } catch (err) {
-                console.log(err)
-            }
-          }
-      
-          fetchAnimals();
-    }, [])
+    const [ isCreateAnimalFormOpen, setIsCreateAnimalFormOpen ] = useState(false);
     
     return (
         <FetchOwnersContainer>
@@ -64,19 +52,24 @@ export function FetchAnimals () {
                 draggable 
                 pauseOnHover
             />
-            <CreateOwner 
-                isOpen={isCreateOwnerFormOpen} 
-                onClose={() => setIsCreateOwnerFormOpen(false)} 
+            <CreateAnimal 
+                isOpen={isCreateAnimalFormOpen} 
+                onClose={() => setIsCreateAnimalFormOpen(false)} 
                 onComplete={() => 
-                    toast.success('Usuario foi adicionado com sucesso!', {
+                    toast.success('Animal foi adicionado com sucesso!', {
                         autoClose: 3000,
                         progress: undefined
                     })}
             />
             <h1>Animais</h1>
             <div>
-                <Button variant="green" size="auto" type="button" onClick={() => setIsCreateOwnerFormOpen(true)}>Registrar animal</Button>
+                <Button variant="green" size="auto" type="button" onClick={() => setIsCreateAnimalFormOpen(true)}>Registrar animal</Button>
             </div>
+            {/* Se ainda estiver carregando */}
+            {isLoading && <p>Carregando...</p>}
+
+            {/* Se houver erro */}
+            {isError && <p>Erro ao carregar os animais.</p>}
             {animals.length > 0 ? (
                 <Table>
                 <thead>
@@ -90,21 +83,16 @@ export function FetchAnimals () {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {animals.map((animal) => (
-                    // <tr key={animal.id}>
-                    //     <td>{animal.user.id}</td>
-                    //     <td><img src={animal.imageUrl} alt="" /></td>
-                    //     <td>{animal.user.name}</td>
-                    //     <td>{animal.user.email}</td>
-                    //     <td>{animal.user.phone}</td>
-                    //     <td >
-                    //         <div className="flex">
-                    //                 <Button onClick={handleDeleteOwner} size="auto" variant="red">Excluir</Button>
-                    //                 <Button size="auto" variant="yellow">Alterar</Button>
-                    //         </div>
-                    //     </td>
-                    // </tr>
-                    ))} */}
+                    {animals.map((animal: Animal) => (
+                        <tr key={animal.id}>
+                        <td>{animal.id}</td>
+                        <td><img src={animal.imageUrl} alt="" width="50" /></td>
+                        <td>{animal.name}</td>
+                        <td>{animal.species}</td>
+                        <td>{animal.breed}</td>
+                        <td><img src={animal.owner.imageUrl} width="50"/><span>{animal.owner.imageUrl}</span></td>
+                      </tr>
+                    ))}
                 </tbody>
                 </Table>
             ) : (

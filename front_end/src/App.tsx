@@ -4,14 +4,19 @@ import { GlobalStyle } from './styles/global'
 import { Router } from './Router'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContext'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
-        <AuthContextProvider>
-          <Router/>
-        </AuthContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthContextProvider>
+            <Router/>
+          </AuthContextProvider>
+        </QueryClientProvider>
       </BrowserRouter>
       <GlobalStyle/>
     </ThemeProvider>

@@ -11,6 +11,7 @@ export const CreateOwnerContainer = styled.div`
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    overflow-y: auto;
 
     .closeButton {
         background-color: transparent;

@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../lib/prisma";
 import { AnimalsRepository, updateAnimal } from "../animals-repository";
+import { generateImageUrl } from "../../utils/generateImageUrl";
 
 
 export class PrismaAnimalsRepository implements AnimalsRepository {
@@ -12,8 +13,25 @@ export class PrismaAnimalsRepository implements AnimalsRepository {
     }
 
     async retrieveAll() {
-        const animals = await prisma.animal.findMany()
-        return animals
+        const animals = await prisma.animal.findMany({
+            include: {
+                owner: {
+                    select: {
+                        id: true,
+                        imageUrl: true,
+                        user: true
+                    }
+                }
+            }
+        })
+        const processedAnimals = animals.map((animal) => ({
+            ...animal,
+            owner: {
+              ...animal.owner,
+              imageUrl: animal.owner.imageUrl ? generateImageUrl(animal.owner.imageUrl) : null,
+            },
+          }));
+        return processedAnimals
     }
 
     async retrieveByOwnerId(ownerId: number) {
