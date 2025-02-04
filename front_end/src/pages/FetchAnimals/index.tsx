@@ -6,6 +6,7 @@ import { CreateAnimal } from "./CreateAnimal";
 import { Animal, useAnimals } from "../../hooks/useAnimals";
 import { EditAnimal } from "./EditAnimal";
 import { Table } from "./styles";
+import { breedOptions, getBreedLabel, getSpeciesLabel } from "../../utils/animalOptions";
 
 function handleDeleteAnimal() {
 
@@ -43,12 +44,13 @@ export function FetchAnimals () {
             <EditAnimal
                 isOpen={isEditAnimalFormOpen}
                 onClose={() => setIsEditAnimalFormOpen(false)}
-                onComplete={() =>
+                onComplete={() => {
                     toast.success('Animal foi editado com sucesso!', {
                         autoClose: 3000,
                         progress: undefined,
                     })
-                }
+                    setIsEditAnimalFormOpen(false);
+                }}
                 animal={selectedAnimal}
             />
             <h1>Animais</h1>
@@ -77,8 +79,8 @@ export function FetchAnimals () {
                         <td>{animal.id}</td>
                         <td><img src={animal.imageUrl} alt="" width="50" /></td>
                         <td>{animal.name}</td>
-                        <td>{animal.species}</td>
-                        <td>{animal.breed}</td>
+                        <td>{getSpeciesLabel(animal.species)}</td>
+                        <td>{getBreedLabel(animal.species, animal.breed)}</td>
                         <td><img src={animal.owner.imageUrl} width="50"/></td>
                         <td >
                             <div className="flex">

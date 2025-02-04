@@ -14,37 +14,17 @@ import { Modal } from "../../../components/Modal";
 import { ImagePicker } from "../../../components/ImagePicker";
 import { useState } from "react";
 import { useToast } from "../../../hooks/useToast";
-
-const speciesOptions = [
-    { value: "dog", label: "Cachorro" },
-    { value: "cat", label: "Gato" },
-    { value: "bird", label: "Pássaro" },
-];
-
-const breedOptions: { [key: string]: { value: string; label: string; }[] } = {
-    dog: [
-        { value: "labrador", label: "Labrador" },
-        { value: "bulldog", label: "Bulldog" },
-        { value: "poodle", label: "Poodle" },
-    ],
-    cat: [
-        { value: "siamese", label: "Siamês" },
-        { value: "persian", label: "Persa" },
-        { value: "mainecoon", label: "Maine Coon" },
-    ],
-    bird: [
-        { value: "parrot", label: "Papagaio" },
-        { value: "canary", label: "Canário" },
-        { value: "cockatiel", label: "Calopsita" },
-    ],
-};
+import { breedOptions, speciesOptions } from "../../../utils/animalOptions";
 
 const schema = z.object({
     name: z.string().nonempty("Nome obrigatório"),
     species: z.string().nonempty("Espécie obrigatória"),
     breed: z.string().nonempty("Raça obrigatória"),
-    birthDate: z.date().nullable(),
-    weight: z.string().transform((val) => parseFloat(val)),
+    birthDate: z.preprocess(
+        (val) => (val instanceof Date ? val.toISOString().split("T")[0] : val),
+        z.string()
+    ),
+    weight: z.string(),
     ownerId: z.number()
 });
   
@@ -67,7 +47,11 @@ export function EditAnimal({ isOpen, onClose, onComplete, animal } : EditAnimalP
     const [image, setImage] = useState(animal?.imageUrl || "");
     
     const { control, register, handleSubmit, watch, formState: { errors, isDirty } } = useForm<FormData>({
-        defaultValues: animal,
+        defaultValues: {
+            ...animal,
+            weight: animal?.weight.toString(),
+            birthDate: animal?.birthDate ? new Date(animal.birthDate).toISOString().split("T")[0] : ""
+        },
         resolver: zodResolver(schema)
     });
 
@@ -80,6 +64,7 @@ export function EditAnimal({ isOpen, onClose, onComplete, animal } : EditAnimalP
                 ...updatedAnimal,
                 birthDate: updatedAnimal.birthDate ? new Date(updatedAnimal.birthDate).toISOString().split("T")[0] : null,
             }
+            success("Animal atualizado com sucesso!");
             return api.put(`/animals/${animal!.id}`, formattedData)
         },
         onSuccess: () => {
@@ -88,6 +73,9 @@ export function EditAnimal({ isOpen, onClose, onComplete, animal } : EditAnimalP
         },
     });
 
+    function handle(data: any) {
+        console.log(data)
+    }
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="Editar animal">
             <form onSubmit={handleSubmit((data) => updateAnimal.mutate(data))} action="">
