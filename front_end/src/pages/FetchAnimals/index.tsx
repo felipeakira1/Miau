@@ -1,43 +1,22 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useState } from "react";
 import { Button } from "../../components/Button";
 import { toast, ToastContainer } from 'react-toastify';
-import { CreateOwner } from "../CreateOwner";
-import { FetchOwnersContainer, Table } from "../FetchOwners/styles";
-import { api } from "../../services/api";
-import { useQuery } from "@tanstack/react-query";
+import { FetchOwnersContainer } from "../FetchOwners/styles";
 import { CreateAnimal } from "./CreateAnimal";
+import { Animal, useAnimals } from "../../hooks/useAnimals";
+import { EditAnimal } from "./EditAnimal";
+import { Table } from "./styles";
 
-interface Animal {
-    id: number;
-    name: string;
-    species: string;
-    breed: string;
-    birthDate: Date;
-    weight: number;
-    imageUrl?: string;
-    owner: {
-        userId: number;
-        user: {
-            name: string;
-        }
-        imageUrl: string;
-    }
-}
+function handleDeleteAnimal() {
 
-const fetchAnimals = async () => {
-    const response = await api.get('/animals');
-    return response.data.animals;
 }
 
 export function FetchAnimals () {
-    const { data : animals = [], isLoading, isError} = useQuery({
-        queryKey: ["animals"],
-        queryFn: fetchAnimals,
-        staleTime: 1000 * 60 * 5
-    })
+    const { data : animals = [], isLoading, isError} = useAnimals()
 
+    const [selectedAnimal, setSelectedAnimal] = useState<Animal | undefined>(undefined);
     const [ isCreateAnimalFormOpen, setIsCreateAnimalFormOpen ] = useState(false);
+    const [ isEditAnimalFormOpen, setIsEditAnimalFormOpen ] = useState(false);
     
     return (
         <FetchOwnersContainer>
@@ -61,14 +40,23 @@ export function FetchAnimals () {
                         progress: undefined
                     })}
             />
+            <EditAnimal
+                isOpen={isEditAnimalFormOpen}
+                onClose={() => setIsEditAnimalFormOpen(false)}
+                onComplete={() =>
+                    toast.success('Animal foi editado com sucesso!', {
+                        autoClose: 3000,
+                        progress: undefined,
+                    })
+                }
+                animal={selectedAnimal}
+            />
             <h1>Animais</h1>
             <div>
                 <Button variant="green" size="auto" type="button" onClick={() => setIsCreateAnimalFormOpen(true)}>Registrar animal</Button>
             </div>
-            {/* Se ainda estiver carregando */}
             {isLoading && <p>Carregando...</p>}
 
-            {/* Se houver erro */}
             {isError && <p>Erro ao carregar os animais.</p>}
             {animals.length > 0 ? (
                 <Table>
@@ -80,6 +68,7 @@ export function FetchAnimals () {
                     <th>Espécie</th>
                     <th>Raça</th>
                     <th>Tutor</th>
+                    <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,7 +79,13 @@ export function FetchAnimals () {
                         <td>{animal.name}</td>
                         <td>{animal.species}</td>
                         <td>{animal.breed}</td>
-                        <td><img src={animal.owner.imageUrl} width="50"/><span>{animal.owner.imageUrl}</span></td>
+                        <td><img src={animal.owner.imageUrl} width="50"/></td>
+                        <td >
+                            <div className="flex">
+                                <Button onClick={() => {setIsEditAnimalFormOpen(true); setSelectedAnimal(animal) }} size="auto" variant="yellow">Editar</Button>
+                                <Button onClick={handleDeleteAnimal} size="auto" variant="red">Excluir</Button>
+                            </div>
+                        </td>
                       </tr>
                     ))}
                 </tbody>

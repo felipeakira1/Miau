@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import styled from "styled-components";
 
@@ -12,8 +12,8 @@ interface AutoCompleteProps {
 }
 
 export function AutoComplete({ label, name, control, options, error, disabled }: AutoCompleteProps) {
-    const [search, setSearch] = useState(""); // Estado para armazenar o texto digitado
-    const [showSuggestions, setShowSuggestions] = useState(false); // Controla exibição da lista
+    const [search, setSearch] = useState("");
+    const [showSuggestions, setShowSuggestions] = useState(false); 
 
     const filteredOptions = options.filter((option) =>
         option.label.toLowerCase().includes(search.toLowerCase())
@@ -25,8 +25,13 @@ export function AutoComplete({ label, name, control, options, error, disabled }:
             <Controller
                 name={name}
                 control={control}
-                render={({ field }) => (
-                    <div className="autocomplete">
+                render={({ field }) => {
+                    useEffect(() => {
+                        const selectedOption = options.find((option) => option.value === field.value);
+                        setSearch(selectedOption ? selectedOption.label : "");
+                    }, [field.value, options]);
+
+                    return (<div className="autocomplete">
                         <input
                             type="text"
                             id={name}
@@ -57,8 +62,8 @@ export function AutoComplete({ label, name, control, options, error, disabled }:
                                 ))}
                             </SuggestionsList>
                         )}
-                    </div>
-                )}
+                    </div>)
+                }}
             />
             {error && <p className="error">{error}</p>}
         </Container>
