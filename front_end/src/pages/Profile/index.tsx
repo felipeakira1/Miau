@@ -5,10 +5,11 @@ import { Button } from "../../components/Button";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { UpdatePassword } from "./UpdatePassword";
-import { UpdateImage } from "./UpdateImage";
+import { UpdateImage } from "../../components/ImagePicker/UpdateImage";
 import { api } from "../../services/api";
 import { ToastContainer } from "react-toastify";
 import { useToast } from "../../hooks/useToast";
+import { ImagePicker } from "../../components/ImagePicker";
 
 interface FormProfileData {
     name: string;
@@ -107,10 +108,10 @@ export function Profile() {
             />
 
             <h1>Profile</h1>
-            <UpdateImage 
-                preview={image} 
-                isOpen={isImageModalOpen} 
-                onClose={(newImageUrl) => {
+            <ImagePicker 
+                imageUrl={image} 
+                entityType="veterinarians"
+                onImageChange={(newImageUrl : string) => {
                     setIsImageModalOpen(false);
                     if(newImageUrl) {
                         setImage(newImageUrl);
@@ -129,8 +130,6 @@ export function Profile() {
 
             <form onSubmit={handleSubmit(handleProfileUpdate)} action="">
                 <ProfileImage>
-                    <img src={image} alt="" />
-                    <button  onClick={() => {setIsImageModalOpen(true)}}>Atualizar foto</button>
                 </ProfileImage>
 
                 <Row>
