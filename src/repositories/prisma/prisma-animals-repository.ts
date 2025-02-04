@@ -59,6 +59,9 @@ export class PrismaAnimalsRepository implements AnimalsRepository {
             },
             data
         })
-        return animal
+        return {
+            ...animal,
+            imageUrl: generateImageUrl(animal.imageUrl)
+        }
     }
 }

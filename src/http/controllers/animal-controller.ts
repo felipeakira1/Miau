@@ -10,6 +10,7 @@ import { MakeUpdateAnimalUseCase } from "../../use-cases/factories/make-update-a
 import { MakeFetchAllAnimaislUseCase } from "../../use-cases/factories/make-fetch-all-animals-use-case";
 import { generateImageUrl } from "../../utils/generateImageUrl";
 import { MakeFetchAppointmentsByAnimalUseCase } from "../../use-cases/factories/make-fetch-appointments-by-animal-use-case";
+import { uploadImage } from "../../utils/upload-image";
 
 export class AnimalController {
     async createAnimal(request: FastifyRequest, reply: FastifyReply) {
@@ -68,28 +69,16 @@ export class AnimalController {
             if(!data) {
                 return reply.status(400).send({error: "No file sent"})
             }
-            const { filename, mimetype, file } : MultipartFile = data
-            const allowedMimeTypes = ['image/jpeg', 'image/png']
-            if(!allowedMimeTypes.includes(mimetype)) {
-                return reply.status(400).send({error: "Type of the file not supported"})
-            }
-            const uploadDir = process.cwd() + "\\uploads"
-            if(!fs.existsSync(uploadDir)) {
-                fs.mkdirSync(uploadDir, { recursive: true})
-            }
-            const saveTo = path.join(uploadDir, filename)
-            const pump = promisify(pipeline)
-            await pump(file, fs.createWriteStream(saveTo))
-
-            const relativePath = path.relative(process.cwd(), saveTo)
+            const relativePath = await uploadImage(data);
             const updateAnimal = MakeUpdateAnimalUseCase()
-            const updatedAnimal = await updateAnimal.execute({
+            const { animal } = await updateAnimal.execute({
                 id,
                 imageUrl: relativePath
             })
 
-            return reply.status(200).send({updatedAnimal})
+            return reply.status(200).send({animal})
         }catch(err) {
+            console.error(err)
             return reply.status(500).send({error: 'Upload failed'})
         }
     } 

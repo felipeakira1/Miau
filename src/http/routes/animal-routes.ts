@@ -8,5 +8,5 @@ export async function animalRoutes(app : FastifyInstance) {
     app.post('/animals', animalController.createAnimal)
     app.get('/animals', animalController.fetchAllAnimals)
     app.get('/animals/:id/appointments', animalController.fetchAppointmentsByAnimalId)
-    app.post('/animals/:id/upload', animalController.updateAnimalImageUrl)
+    app.patch('/animals/:id/upload', animalController.updateAnimalImageUrl)
 }
