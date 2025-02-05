@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button } from "../../components/Button";
 import { toast, ToastContainer } from 'react-toastify';
-import { FetchOwnersContainer } from "../FetchOwners/styles";
-import { CreateAnimal } from "./CreateAnimal";
 import { Animal, useAnimals } from "../../hooks/useAnimals";
 import { EditAnimal } from "./EditAnimal";
 import { Table } from "./styles";
-import { breedOptions, getBreedLabel, getSpeciesLabel } from "../../utils/animalOptions";
+import { getBreedLabel, getSpeciesLabel } from "../../utils/animalOptions";
+import { PageContainer } from "../../components/PageContainer";
+import { CreateAnimal } from "./CreateAnimal";
 
 function handleDeleteAnimal() {
 
@@ -20,7 +20,7 @@ export function FetchAnimals () {
     const [ isEditAnimalFormOpen, setIsEditAnimalFormOpen ] = useState(false);
     
     return (
-        <FetchOwnersContainer>
+        <PageContainer>
             <ToastContainer 
                 position="top-right" 
                 autoClose={5000} // Tempo de auto fechamento (5 segundos)
@@ -95,6 +95,6 @@ export function FetchAnimals () {
             ) : (
                 <p>Nenhum owner encontrado.</p>
             )}
-        </FetchOwnersContainer>
+        </PageContainer>
     )
 }

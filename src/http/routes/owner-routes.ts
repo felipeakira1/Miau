@@ -16,5 +16,5 @@ export async function ownerRoutes(app : FastifyInstance) {
     app.patch('/owners/:id/upload', {onRequest: [verifyJWT]}, ownerController.updateOwnerImageUrl)
 
     // Atualizar qualquer usuário (admin)
-    app.put('/owners/:id', { onRequest: [verifyJWT, verifyUserRole('ADMIN')]}, ownerController.updateByAdmin)
+    app.put('/owners/:id', { onRequest: [verifyJWT]}, ownerController.updateByAdmin)
 }

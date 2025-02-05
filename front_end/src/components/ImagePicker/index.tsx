@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UpdateImage } from "./UpdateImage";
 import { ImagePickerContent } from "./UpdateImage/styles";
 import { Button } from "../Button";
@@ -12,9 +12,15 @@ interface ImagePickerProps {
 
 export function ImagePicker({entityType, entityId, imageUrl, onImageChange } : ImagePickerProps) {
     const [ isModalOpen, setIsModalOpen ] = useState(false);
+    const [preview, setPreview] = useState(imageUrl);
+
+    useEffect(() => {
+        setPreview(imageUrl);
+    }, [imageUrl]);
+    
     return (
         <ImagePickerContent>
-            <img src={imageUrl} alt="" />
+            <img src={preview} alt="" />
             <Button variant="gray" size="small" onClick={() => {setIsModalOpen(true)}} type="button">Atualizar foto</Button>
 
             <UpdateImage
@@ -23,7 +29,10 @@ export function ImagePicker({entityType, entityId, imageUrl, onImageChange } : I
                 preview={imageUrl}
                 isOpen={isModalOpen}
                 onClose={(newImageurl) => {
-                    if(newImageurl) onImageChange(newImageurl);
+                    if(newImageurl) {
+                        setPreview(newImageurl);
+                        onImageChange(newImageurl)
+                    }
                     setIsModalOpen(false);
                 }}
             />

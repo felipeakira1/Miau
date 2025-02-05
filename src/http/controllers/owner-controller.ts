@@ -167,12 +167,15 @@ export class OwnerController {
             }
             const relativePath = await uploadImage(data)
             const updateOwnerUseCase = makeUpdateOwnerUseCase()
-            const updatedAnimal = await updateOwnerUseCase.execute({
+            const { owner } = await updateOwnerUseCase.execute({
                 id,
                 imageUrl: relativePath
             })
     
-            return reply.status(200).send({updatedAnimal})
+            return reply.status(200).send({
+                ...owner,
+                imageUrl: generateImageUrl(owner.imageUrl)
+            })
         }catch(err) {
             return reply.status(500).send({error: 'Upload failed'})
         }

@@ -1,60 +1,24 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { FetchOwnersContainer, Table } from "./styles";
+import { useState } from "react";
 import { Button } from "../../components/Button";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { CreateOwner } from "../CreateOwner";
-import { Owner } from "../../hooks/useOwners";
+import { Owner, useOwners } from "../../hooks/useOwners";
+import { PageContainer } from "../../components/PageContainer";
+import { Table } from "../../components/Table";
+import { EditOwner } from "./EditOwner";
 
 
 
 export function FetchOwners () {
-    const { jwt } = useContext(AuthContext);
-    const [owners, setOwners] = useState<Owner[]>([]);
+    const { data : owners = [] } = useOwners()
     const [ isCreateOwnerFormOpen, setIsCreateOwnerFormOpen ] = useState(false);
-
-    useEffect(()=> {
-        async function fetchOwners() {
-            try {
-              const response = await fetch("http://localhost:3333/owners", {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${jwt}`,
-                },
-              });
-      
-              if (!response.ok) {
-                throw new Error("Erro ao buscar os dados dos owners");
-              }
-      
-              const { owners } = await response.json();
-              console.log(owners)
-              setOwners(owners);
-            } catch (err) {
-                console.log(err)
-            }
-          }
-      
-          fetchOwners();
-    }, [])
-
+    const [ isEditOwnerFormOpen, setIsEditOwnerFormOpen ] = useState(false);
+    const [selectedOwner, setSelectedOwner] = useState<Owner | undefined>(undefined);
     function handleDeleteOwner() {
     }
     
     return (
-        <FetchOwnersContainer>
-            <ToastContainer 
-                position="top-right" 
-                autoClose={5000} // Tempo de auto fechamento (5 segundos)
-                hideProgressBar={false} 
-                newestOnTop={false} 
-                closeOnClick 
-                rtl={false} 
-                pauseOnFocusLoss 
-                draggable 
-                pauseOnHover
-            />
+        <PageContainer>
             <CreateOwner 
                 isOpen={isCreateOwnerFormOpen} 
                 onClose={() => setIsCreateOwnerFormOpen(false)} 
@@ -62,26 +26,23 @@ export function FetchOwners () {
                     toast.success('Usuario foi adicionado com sucesso!', {
                         autoClose: 3000,
                         progress: undefined
-                    })}
+                })}
+            />
+            <EditOwner
+                isOpen={isEditOwnerFormOpen} 
+                onClose={() => setIsEditOwnerFormOpen(false)} 
+                onComplete={() => {
+                }}
+                owner={selectedOwner}
             />
             <h1>Tutores</h1>
             <div>
                 <Button variant="green" size="auto" type="button" onClick={() => setIsCreateOwnerFormOpen(true)}>Registrar tutor</Button>
             </div>
-            {owners.length > 0 ? (
-                <Table>
-                <thead>
-                    <tr>
-                    <th>ID</th>
-                    <th>Tutor</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Telefone</th>
-                    <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {owners.map((owner) => (
+            <Table
+                columns={["ID", "Imagem", "Nome", "Email", "Telefone", "Ações"]}
+                data={owners}
+                renderRow={(owner: Owner) => (
                     <tr key={owner.id}>
                         <td>{owner.user.id}</td>
                         <td><img src={owner.imageUrl} alt="" /></td>
@@ -90,17 +51,13 @@ export function FetchOwners () {
                         <td>{owner.user.phone}</td>
                         <td >
                             <div className="flex">
+                                    <Button onClick={() => { setIsEditOwnerFormOpen(true); setSelectedOwner(owner) }} size="auto" variant="yellow">Editar</Button>
                                     <Button onClick={handleDeleteOwner} size="auto" variant="red">Excluir</Button>
-                                    <Button size="auto" variant="yellow">Alterar</Button>
                             </div>
                         </td>
                     </tr>
-                    ))}
-                </tbody>
-                </Table>
-            ) : (
-                <p>Nenhum owner encontrado.</p>
-            )}
-        </FetchOwnersContainer>
+                )}
+            />
+        </PageContainer>
     )
 }

@@ -39,11 +39,11 @@ export function UpdateImage({entityType, entityId, preview: image, isOpen, onClo
         
         let response;
          try{
-            if(entityType === "veterinarians") {
-                response = await api.patch("/veterinarians/me/upload", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    }
+             if(entityType === "veterinarians") {
+                 response = await api.patch("/veterinarians/me/upload", formData, {
+                     headers: {
+                         "Content-Type": "multipart/form-data",
+                        }
                 })
             } else {
                 response = await api.patch(`/${entityType}/${entityId}/upload`,formData,  {
@@ -58,9 +58,8 @@ export function UpdateImage({entityType, entityId, preview: image, isOpen, onClo
              if(response.status !== 200) {
                 throw new Error("Erro ao enviar a imagem");
             }
-            const object = response.data[entityType.slice(0, -1)]
-            console.log(object);
-            const newImageUrl = object.imageUrl;
+            const newImageUrl = response.data.imageUrl;
+            console.log(newImageUrl)
             onClose(newImageUrl);
          } catch(err) {
             console.error("Erro no upload", err);

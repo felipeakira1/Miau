@@ -42,7 +42,7 @@ export function EditAnimal({ isOpen, onClose, onComplete, animal } : EditAnimalP
 
     const queryClient = useQueryClient();
     const { data : owners } = useOwners();
-    const { success, error } = useToast();
+    const { success } = useToast();
 
     const [image, setImage] = useState(animal?.imageUrl || "");
     
@@ -70,12 +70,10 @@ export function EditAnimal({ isOpen, onClose, onComplete, animal } : EditAnimalP
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["animals"] });
             onComplete();
+            onClose();
         },
     });
 
-    function handle(data: any) {
-        console.log(data)
-    }
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="Editar animal">
             <form onSubmit={handleSubmit((data) => updateAnimal.mutate(data))} action="">
@@ -87,6 +85,8 @@ export function EditAnimal({ isOpen, onClose, onComplete, animal } : EditAnimalP
                         setImage(newImageUrl);
                         success("Imagem atualizada com sucesso!");
                         queryClient.invalidateQueries({ queryKey: ["animals"] });
+                        onClose();
+                        onComplete();
                     }}
                 />
                 <Input label="Nome*" name="name" register={register} required/>

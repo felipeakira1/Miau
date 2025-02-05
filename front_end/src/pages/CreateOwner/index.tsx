@@ -30,7 +30,7 @@ const schema = z.object({
       .regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Formato inválido")
       .optional(),
     address: z.string().optional(),
-  });
+});
 
   
 type FormData = z.infer<typeof schema>;
